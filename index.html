@@ -1,0 +1,309 @@
+<title>Dashboard Falcon 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cabeçalho com filtros, faixa de KPIs, grade 2 colunas de gráficos, tabelas de DRE/churn/NPS no fim */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --ink:#111a2b; --muted:#5b667a; --line:#dde2ea;
+  --accent:#2347d9; --accent-soft:#e6ebfc; --var:#e08a1e; --good:#12805c; --bad:#c4372b; --warn:#b7791f;
+  --grid:#e6eaf0;
+  --f-display:'Bricolage Grotesque','Segoe UI',sans-serif; --f-body:'IBM Plex Sans','Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1220; --surface:#141c2e; --ink:#e8edf7; --muted:#97a3ba; --line:#243049; --accent:#7b97ff; --accent-soft:#1c2a55;
+  --var:#f0a54a; --good:#3fc79a; --bad:#ff7a6b; --warn:#e6b052; --grid:#1f2a40; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1220; --surface:#141c2e; --ink:#e8edf7; --muted:#97a3ba; --line:#243049; --accent:#7b97ff; --accent-soft:#1c2a55;
+  --var:#f0a54a; --good:#3fc79a; --bad:#ff7a6b; --warn:#e6b052; --grid:#1f2a40; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;padding-inline:clamp(16px,3vw,40px);padding-block:24px 48px}
+.wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-size:clamp(28px,4vw,44px);line-height:1.05;margin:4px 0 0;text-wrap:balance;letter-spacing:-.02em}
+h2{font-family:var(--f-display);font-size:18px;margin:0;letter-spacing:-.01em}
+.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl label,.ctl .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{font:500 13px var(--f-body);padding:7px 14px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-family:var(--f-display);font-size:26px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.15}
+.kpi .d{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.up{color:var(--good)} .down{color:var(--bad)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card p.sub{margin:0;color:var(--muted);font-size:12.5px}
+.chart{position:relative;height:280px}
+.wide{grid-column:1/-1}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:13px}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface)}
+th{font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr.tot td{font-weight:600}
+tr.sub td:first-child{padding-left:22px;color:var(--muted)}
+td.neg{color:var(--bad)} td.pos{color:var(--good)}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11.5px;font-weight:500;background:var(--accent-soft);color:var(--accent)}
+.pill.bad{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.note{border-top:2px solid var(--warn);padding-top:8px;font-size:13px}
+.note b{display:block;font-family:var(--f-display);font-size:14px;margin-bottom:2px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+footer{color:var(--muted);font-size:12px}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <div class="eyebrow">Squad Falcon · Time Ivan · V4 Carvalho &amp; Co.</div>
+    <h1>Crescimento do Falcon, abril a setembro de 2026</h1>
+  </div>
+  <div class="controls">
+    <div class="ctl" role="group" aria-label="Filtro de faturamento">
+      <span class="lbl">Faturamento</span>
+      <div class="seg" id="segFat">
+        <button data-v="total" aria-pressed="true">Total</button>
+        <button data-v="mrr" aria-pressed="false">MRR</button>
+        <button data-v="var" aria-pressed="false">Variável</button>
+      </div>
+    </div>
+    <div class="ctl" role="group" aria-label="Período">
+      <span class="lbl">Período</span>
+      <div class="seg" id="segPer">
+        <button data-v="abr" aria-pressed="true">Abr–Set</button>
+        <button data-v="jan" aria-pressed="false">Jan–Set</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="kpis" id="kpis"></section>
+
+<section class="grid">
+  <div class="card">
+    <h2 id="tFat">Faturamento mensal</h2>
+    <p class="sub">MRR é a receita recorrente (fees). Variável soma performance, estruturação e projetos pontuais.</p>
+    <div class="legend"><span><i style="background:var(--accent)"></i>MRR</span><span><i style="background:var(--var)"></i>Variável</span></div>
+    <div class="chart"><canvas id="cFat" role="img" aria-label="Faturamento mensal em MRR e variável"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Margem do squad</h2>
+    <p class="sub">Margem em R$ (barras) e em % do faturamento total (linha), depois de pessoas, royalties, impostos e overheads.</p>
+    <div class="chart"><canvas id="cMar" role="img" aria-label="Margem em reais e percentual por mês"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Clientes na base</h2>
+    <p class="sub">Posição no fim de cada mês, a partir da base de clientes. Entradas e saídas no mês.</p>
+    <div class="chart"><canvas id="cCli" role="img" aria-label="Clientes ativos, entradas e saídas por mês"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Produtividade do time</h2>
+    <p class="sub">Faturamento por pessoa do time (investidor) e % de folha sobre faturamento. Meta de folha: 30%.</p>
+    <div class="chart"><canvas id="cProd" role="img" aria-label="Faturamento por cabeça e percentual de folha"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>NPS do squad</h2>
+    <p class="sub">NPS das respostas do mês (barras) e taxa de resposta (linha). Linha tracejada: NPS da matriz V4, quando disponível.</p>
+    <div class="chart"><canvas id="cNps" role="img" aria-label="NPS e taxa de resposta por mês"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Nota por critério</h2>
+    <p class="sub">Média das notas (1 a 5) nas pesquisas de agosto e setembro.</p>
+    <div class="chart"><canvas id="cCrit" role="img" aria-label="Nota média por critério"></canvas></div>
+  </div>
+
+  <div class="card wide">
+    <h2>DRE resumido</h2>
+    <div class="tbl"><table id="dre"></table></div>
+  </div>
+
+  <div class="card wide">
+    <h2>Saídas de clientes desde abril</h2>
+    <p class="sub">Fee mensal conforme a aba Detalhamento do DRE. Onde não há lançamento, o campo fica em branco.</p>
+    <div class="tbl"><table id="churn"></table></div>
+  </div>
+
+  <div class="card wide">
+    <h2>Pontos de atenção</h2>
+    <div class="notes" id="notes"></div>
+  </div>
+</div>
+<footer>Fontes: DRE FALCON (abas Jan–Mai, Jun–Dez e Detalhamento), Base de Clientes e NPS Q2. Valores de setembro seguem o DRE como lançado.</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const RAW={"nps": [{"c": "A.dias", "m": 7, "n": 9.0, "csat": 5.0, "cr": [5.0, 5.0, 4.0, 5.0, 5.0, 5.0]}, {"c": "Alice Salazar", "m": 7, "n": 10.0, "csat": 4.0, "cr": [5.0, 3.0, 4.0, 5.0, 3.0, 5.0]}, {"c": "Alice Salazar", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 4.0, 4.0, 5.0, 5.0, 5.0]}, {"c": "Argiplam", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Argiplam", "m": 8, "n": 9.0, "csat": 4.0, "cr": [4.0, 4.0, 4.0, 4.0, 5.0, 4.0]}, {"c": "Clube da Casa Nova Era", "m": 5, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Clube da Casa Nova Era", "m": 6, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Clube da Casa Nova Era", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Clube da Casa Nova Era", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Drogalis", "m": 3, "n": 10.0, "csat": 4.0, "cr": [5.0, 5.0, 5.0, 5.0, 4.0, 4.0]}, {"c": "Drogalis", "m": 4, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Elevance Automotive", "m": 8, "n": 10.0, "csat": 5.0, "cr": [4.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "ELM Pinturas", "m": 6, "n": 10.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "Empório Mega 100", "m": 8, "n": 10.0, "csat": 5.0, "cr": [4.0, 5.0, 4.0, 5.0, 5.0, 5.0]}, {"c": "GSC Segurança", "m": 3, "n": 9.0, "csat": 4.0, "cr": [5.0, 3.0, 4.0, 4.0, 5.0, 3.0]}, {"c": "GSC Segurança", "m": 4, "n": 5.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "GSC Segurança", "m": 5, "n": 9.0, "csat": 4.0, "cr": [5.0, 4.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "GSC Segurança", "m": 6, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "MasterMed", "m": 3, "n": 9.0, "csat": 4.0, "cr": [4.0, 4.0, null, 4.0, 4.0, 4.0]}, {"c": "MasterMed", "m": 6, "n": 9.0, "csat": 3.0, "cr": [4.0, 4.0, 4.0, 4.0, 3.0, 4.0]}, {"c": "Miyamura Engenharia", "m": 5, "n": 9.0, "csat": 4.0, "cr": [5.0, 4.0, 5.0, 5.0, 4.0, 4.0]}, {"c": "Miyamura Engenharia", "m": 6, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Miyamura Engenharia", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Miyamura Engenharia", "m": 8, "n": 10.0, "csat": 4.0, "cr": [5.0, 5.0, 5.0, 5.0, 4.0, 5.0]}, {"c": "Official Time (EMW Joias)", "m": 3, "n": 10.0, "csat": 4.0, "cr": [5.0, 4.0, 4.0, 4.0, 5.0, 4.0]}, {"c": "Official Time (EMW Joias)", "m": 5, "n": 10.0, "csat": 4.0, "cr": [5.0, 4.0, 4.0, 4.0, 4.0, 4.0]}, {"c": "Official Time (EMW Joias)", "m": 7, "n": 8.0, "csat": 3.0, "cr": [4.0, 4.0, 4.0, 4.0, 3.0, 3.0]}, {"c": "Official Time (EMW Joias)", "m": 8, "n": 9.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "PetTreats", "m": 3, "n": 10.0, "csat": null, "cr": [5.0, null, null, 5.0, 5.0, 5.0]}, {"c": "PetTreats", "m": 4, "n": 10.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "PetTreats", "m": 5, "n": 10.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "Point Thermic", "m": 7, "n": 9.0, "csat": 4.0, "cr": [4.0, 4.0, 4.0, 5.0, 4.0, 4.0]}, {"c": "TB Rio Elevadores", "m": 6, "n": 9.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "TB Rio Elevadores", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "TB Rio Elevadores", "m": 8, "n": 9.0, "csat": 5.0, "cr": [4.0, 4.0, 5.0, 5.0, 5.0, null]}, {"c": "Touch of Synergy (Praex)", "m": 8, "n": 5.0, "csat": 3.0, "cr": [5.0, 2.0, 4.0, 4.0, 3.0, 1.0]}, {"c": "TradePro", "m": 8, "n": 10.0, "csat": 5.0, "cr": [null, null, null, null, null, null]}, {"c": "Viagem do Sonho", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 4.0, null]}, {"c": "VS Med", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}], "cl": [{"c": "Alice Salazar", "s": "Ativo", "i": "16/01/2026", "x": "", "lt": "8,6"}, {"c": "ADias Gestão de Risco (PHD)", "s": "Pausado", "i": "24/07/2026", "x": "", "lt": "2,3"}, {"c": "Argiplam", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}, {"c": "Clube da Casa (Nova Era)", "s": "Churn", "i": "06/04/2026", "x": "10/09/2026", "lt": "5,9"}, {"c": "Drogalis", "s": "Churn", "i": "21/08/2024", "x": "02/10/2026", "lt": "25,7"}, {"c": "Éffera", "s": "Churn", "i": "16/03/2026", "x": "31/05/2026", "lt": "2,5"}, {"c": "EJOT", "s": "Churn", "i": "15/09/2025", "x": "31/07/2026", "lt": "12,7"}, {"c": "Elevance Automotive", "s": "Ativo", "i": "28/01/2026", "x": "", "lt": "8,2"}, {"c": "ELM Pinturas", "s": "Finalizado", "i": "25/05/2026", "x": "09/07/2026", "lt": "4,3"}, {"c": "Empório Mega 100", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}, {"c": "Empório Pirana", "s": "Churn", "i": "14/08/2024", "x": "30/06/2026", "lt": "25,9"}, {"c": "Falcon Têxtil", "s": "Ativo", "i": "17/08/2026", "x": "", "lt": "1,5"}, {"c": "FF Driver", "s": "Ativo", "i": "03/08/2026", "x": "", "lt": "2,0"}, {"c": "GSC Segurança", "s": "Ativo", "i": "20/01/2026", "x": "", "lt": "8,5"}, {"c": "Krioplast", "s": "Ativo", "i": "28/08/2026", "x": "", "lt": "1,1"}, {"c": "Mana Refeições", "s": "Ativo", "i": "03/09/2026", "x": "", "lt": "0,9"}, {"c": "MasterMed", "s": "Churn", "i": "05/01/2026", "x": "31/07/2026", "lt": "6,9"}, {"c": "Miyamura Engenharia", "s": "Ativo", "i": "01/09/2025", "x": "", "lt": "13,2"}, {"c": "Nagaura", "s": "Ativo", "i": "05/05/2025", "x": "", "lt": "17,1"}, {"c": "Official Time", "s": "Ativo", "i": "03/11/2025", "x": "", "lt": "11,1"}, {"c": "Pakman Tecnologia", "s": "Ativo", "i": "04/09/2026", "x": "", "lt": "0,9"}, {"c": "PetTreats", "s": "Ativo", "i": "28/09/2023", "x": "", "lt": "36,6"}, {"c": "Point Thermic", "s": "Ativo", "i": "08/06/2023", "x": "", "lt": "40,4"}, {"c": "Premium Gourmet", "s": "Ativo", "i": "25/08/2026", "x": "", "lt": "1,2"}, {"c": "RLAV", "s": "Ativo", "i": "03/09/2026", "x": "", "lt": "0,9"}, {"c": "Sacrarium Hotel", "s": "Ativo", "i": "02/09/2026", "x": "", "lt": "1,0"}, {"c": "TB Rio Elevadores", "s": "Ativo", "i": "22/10/2025", "x": "", "lt": "11,5"}, {"c": "Touch of Synergy (Praex)", "s": "Ativo", "i": "22/12/2025", "x": "", "lt": "9,4"}, {"c": "Tradepro", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}, {"c": "Triattori", "s": "Ativo", "i": "04/09/2026", "x": "", "lt": "0,9"}, {"c": "Trufer", "s": "Ativo", "i": "24/11/2025", "x": "", "lt": "10,4"}, {"c": "Viagem do Sonho", "s": "Ativo", "i": "20/07/2026", "x": "", "lt": "2,4"}, {"c": "VS Med", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}]};
+const M=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'];
+// DRE (aba Jan–Mai e Jun–Dez). pessoas = custo direto do time (inclui variáveis de pessoas).
+const D={
+ mrr:[45481.56,45481.56,39673.05,62438.96,59060.39,91770.58,73766.41,77637.81,123605.28],
+ vr:[2244.53,2189.84,2012,16012,15700,23178.17,26789.69,50627.32,59004.37],
+ inad:[0,0,0,0,6691.49,0,0,0,9328],
+ pess:[27691.66,19525,27175,29458.32,31985.81,29775,29423,33698.31,45097.15],
+ roy:[14317.83,14301.42,12505.52,23535.29,22428.12,28737.19,25139.03,32066.28,45652.41],
+ ohP:[42563.95,18505.04,18213.94,19749.65,17440.9,14761.17,15482,18381.2,14621.89],
+ ohI:[15307.98,6743.4,6644.25,9200.69,7830.02,12986.78,15274.42,18429.72,25282.94],
+ ohC:[13567.33,9116.83,19168.82,18662.94,15649.04,11881.86,12787.82,14504.34,12041.96],
+ prod:[0,0,0,0,520,7224.9,0,0,0],
+ mar:[-65722.66,-20520.29,-42022.48,-22155.93,-21093.51,9581.86,2449.84,11185.28,39913.3],
+ cli:[8,7,8,10,10,17,20,19,20],
+ inv:[6,5,5,7,6,6,7,7,7]
+};
+D.fat=D.mrr.map((v,i)=>v+D.vr[i]);
+const FEE={'Clube da Casa (Nova Era)':5855.05,'Drogalis':7132,'EJOT':8500,'MasterMed':7000,'Empório Pirana':4700};
+const NPS_M=[null,null,null,null,null,null,null,76.9,78.6]; // visão matriz V4 (planilha NPS)
+
+const brl=v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+const k=v=>{const a=Math.abs(v);return (v<0?'-':'')+'R$ '+(a>=1000?(a/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mil':Math.round(a))};
+const pct=(v,d=0)=>(v*100).toLocaleString('pt-BR',{maximumFractionDigits:d,minimumFractionDigits:d})+'%';
+const num=(v,d=1)=>v.toLocaleString('pt-BR',{maximumFractionDigits:d,minimumFractionDigits:d});
+const pd=s=>{const[a,b,c]=s.split('/').map(Number);return new Date(c,b-1,a)};
+
+// Base de clientes
+const cl=RAW.cl.map(c=>({...c,start:pd(c.i),end:c.x?pd(c.x):null}));
+const eom=m=>new Date(2026,m+1,0,23,59,59);
+const inMonth=(d,m)=>d&&d.getFullYear()==2026&&d.getMonth()==m;
+const base=M.map((_,m)=>cl.filter(c=>c.start<=eom(m)&&!(c.end&&c.end<=eom(m))).length);
+const ent=M.map((_,m)=>cl.filter(c=>inMonth(c.start,m)).length);
+const sai=M.map((_,m)=>cl.filter(c=>inMonth(c.end,m)&&!(c.c==='Drogalis')).length);
+const folha=D.pess.map((v,i)=>v/D.fat[i]);
+const marP=D.mar.map((v,i)=>v/D.fat[i]);
+const ticket=D.fat.map((v,i)=>v/D.cli[i]);
+const fcab=D.fat.map((v,i)=>v/D.inv[i]);
+
+// NPS
+const npsM=M.map((_,m)=>{
+  const r=RAW.nps.filter(x=>x.m===m&&x.n!=null);
+  if(!r.length)return null;
+  const p=r.filter(x=>x.n>=9).length,d=r.filter(x=>x.n<=6).length;
+  return {nps:(p-d)/r.length*100,n:r.length,p,d};
+});
+const respM=M.map((_,m)=>{ // taxa de resposta aproximada: respondidas / (respondidas + não respondidas), calculada na planilha original
+  return [null,null,null,1,1,.71,.6,.67,.71][m];
+});
+const CRIT=['Atendimento','Campanhas','Copy','Design','Prazos','Resultados'];
+const critAvg=m=>CRIT.map((_,i)=>{const v=RAW.nps.filter(x=>x.m===m&&x.cr[i]!=null).map(x=>x.cr[i]);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null});
+
+let fatMode='total',per='abr',charts=[];
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fatSeries=()=>fatMode==='mrr'?D.mrr:fatMode==='var'?D.vr:D.fat;
+const fatLabel=()=>fatMode==='mrr'?'MRR':fatMode==='var'?'Faturamento variável':'Faturamento total';
+
+function kpis(){
+  const s=fatSeries(),L=8,A=3;
+  const dl=(a,b,lbl)=>{const g=(a-b)/Math.abs(b);return `<span class="${g>=0?'up':'down'}">${g>=0?'▲':'▼'} ${pct(Math.abs(g))}</span> ${lbl}`};
+  const items=[
+   [fatLabel()+' · set',k(s[L]),dl(s[L],s[A],'vs abril')],
+   ['Margem · set',k(D.mar[L]),`${pct(marP[L])} do fat. · abril ${k(D.mar[A])} (${pct(marP[A])})`],
+   ['Clientes na base · fim de set',base[L],`${base[L]-base[A]>=0?'+':''}${base[L]-base[A]} vs fim de abril · ${D.cli[L]} pagantes no DRE`],
+   ['NPS · set',num(npsM[L].nps,1),`${npsM[L].n} respostas · ${npsM[L].d} detrator`],
+   ['% folha · set',pct(folha[L],1),`abril ${pct(folha[A],1)} · meta 30%`],
+   ['Faturamento por pessoa · set',k(fcab[L]),dl(fcab[L],fcab[A],'vs abril')],
+   ['Ticket médio · set',k(ticket[L]),dl(ticket[L],ticket[A],'vs abril')],
+   ['Variável no faturamento · set',pct(D.vr[L]/D.fat[L]),`abril ${pct(D.vr[A]/D.fat[A])} · MRR ${k(D.mrr[L])}`]
+  ];
+  document.getElementById('kpis').innerHTML=items.map(([a,b,c])=>`<div class="kpi"><span class="k">${a}</span><span class="v">${b}</span><span class="d">${c}</span></div>`).join('');
+}
+
+function mk(id,cfg){charts.push(new Chart(document.getElementById(id),cfg))}
+function draw(){
+  charts.forEach(c=>c.destroy());charts=[];
+  const s=per==='abr'?3:0,lab=M.slice(s),sl=a=>a.slice(s);
+  const ink=css('--muted'),grid=css('--grid'),acc=css('--accent'),vr=css('--var'),good=css('--good'),bad=css('--bad'),surf=css('--surface');
+  Chart.defaults.font.family="'IBM Plex Sans',sans-serif";Chart.defaults.color=ink;Chart.defaults.font.size=12;
+  const ax=(o={})=>({grid:{color:grid},border:{display:false},ticks:{color:ink,...(o.ticks||{})},...o});
+  const base0={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{}}},scales:{x:{grid:{display:false},ticks:{color:ink}}}};
+  document.getElementById('tFat').textContent=fatLabel()+' por mês';
+
+  // Faturamento
+  const ds=[];
+  if(fatMode!=='var')ds.push({label:'MRR',data:sl(D.mrr),backgroundColor:acc,borderRadius:3,stack:'a'});
+  if(fatMode!=='mrr')ds.push({label:'Variável',data:sl(D.vr),backgroundColor:vr,borderRadius:3,stack:'a'});
+  mk('cFat',{type:'bar',data:{labels:lab,datasets:ds},options:{...base0,plugins:{...base0.plugins,tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${brl(c.parsed.y)}`,footer:i=>fatMode==='total'?'Total: '+brl(i.reduce((a,b)=>a+b.parsed.y,0)):''}}},scales:{x:{...base0.scales.x,stacked:true},y:ax({stacked:true,ticks:{callback:v=>v>=1000?v/1000+'k':v}})}}});
+
+  // Margem
+  mk('cMar',{data:{labels:lab,datasets:[
+    {type:'bar',label:'Margem R$',data:sl(D.mar),backgroundColor:sl(D.mar).map(v=>v>=0?good:bad),borderRadius:3,yAxisID:'y'},
+    {type:'line',label:'Margem %',data:sl(marP).map(v=>v*100),borderColor:ink,backgroundColor:ink,pointRadius:4,tension:.25,yAxisID:'y1'}]},
+    options:{...base0,plugins:{...base0.plugins,tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y'?'Margem: '+brl(c.parsed.y):'Margem: '+num(c.parsed.y,1)+'%'}}},scales:{x:base0.scales.x,y:ax({min:-40000,max:40000,ticks:{callback:v=>v/1000+'k'}}),y1:{position:'right',min:-40,max:40,grid:{display:false},border:{display:false},ticks:{callback:v=>v+'%',color:ink}}}}});
+
+  // Clientes
+  mk('cCli',{data:{labels:lab,datasets:[
+    {type:'bar',label:'Entradas',data:sl(ent),backgroundColor:good,borderRadius:3,yAxisID:'y'},
+    {type:'bar',label:'Saídas',data:sl(sai).map(v=>-v),backgroundColor:bad,borderRadius:3,yAxisID:'y'},
+    {type:'line',label:'Clientes na base',data:sl(base),borderColor:acc,backgroundColor:acc,pointRadius:4,tension:.25,yAxisID:'y'}]},
+    options:{...base0,plugins:{legend:{display:true,labels:{boxWidth:10,color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`}}},scales:{x:base0.scales.x,y:ax({min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
+
+  // Produtividade
+  mk('cProd',{data:{labels:lab,datasets:[
+    {type:'bar',label:'Faturamento por pessoa',data:sl(fcab),backgroundColor:acc,borderRadius:3,yAxisID:'y'},
+    {type:'line',label:'% folha',data:sl(folha).map(v=>v*100),borderColor:vr,backgroundColor:vr,pointRadius:4,tension:.25,yAxisID:'y1'},
+    {type:'line',label:'Meta 30%',data:lab.map(()=>30),borderColor:ink,borderDash:[5,4],pointRadius:0,borderWidth:1,yAxisID:'y1'}]},
+    options:{...base0,plugins:{legend:{display:true,labels:{boxWidth:10,color:ink}},tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y'?'Fat./pessoa: '+brl(c.parsed.y):c.dataset.label+': '+num(c.parsed.y,1)+'%'}}},scales:{x:base0.scales.x,y:ax({ticks:{callback:v=>v/1000+'k'}}),y1:{position:'right',min:0,grid:{display:false},border:{display:false},ticks:{callback:v=>v+'%',color:ink}}}}});
+
+  // NPS (abril em diante; Jan–Mar sem pesquisa)
+  const nl=M.slice(3);
+  mk('cNps',{data:{labels:nl,datasets:[
+    {type:'bar',label:'NPS Falcon',data:nl.map((_,i)=>npsM[i+3]?.nps??null),backgroundColor:acc,borderRadius:3,yAxisID:'y'},
+    {type:'line',label:'NPS matriz V4',data:NPS_M.slice(3),borderColor:ink,borderDash:[5,4],pointRadius:3,spanGaps:false,yAxisID:'y'},
+    {type:'line',label:'Taxa de resposta',data:respM.slice(3).map(v=>v==null?null:v*100),borderColor:vr,backgroundColor:vr,pointRadius:4,tension:.25,yAxisID:'y'}]},
+    options:{...base0,plugins:{legend:{display:true,labels:{boxWidth:10,color:ink}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+num(c.parsed.y,1)+(c.dataset.label==='Taxa de resposta'?'%':'')}}},scales:{x:base0.scales.x,y:ax({min:0,max:100})}}});
+
+  // Critérios
+  const a8=critAvg(7),a9=critAvg(8);
+  mk('cCrit',{type:'bar',data:{labels:CRIT,datasets:[
+    {label:'Ago',data:a8,backgroundColor:vr,borderRadius:3},{label:'Set',data:a9,backgroundColor:acc,borderRadius:3}]},
+    options:{...base0,plugins:{legend:{display:true,labels:{boxWidth:10,color:ink}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+num(c.parsed.y,2)}}},scales:{x:base0.scales.x,y:ax({min:3,max:5})}}});
+}
+
+function tables(){
+  const s=per==='abr'?3:0,idx=M.map((_,i)=>i).slice(s);
+  const th=`<tr><th></th>${idx.map(i=>`<th>${M[i]}</th>`).join('')}</tr>`;
+  const row=(n,a,f,cls='')=>`<tr class="${cls}"><td>${n}</td>${idx.map(i=>{const v=a[i];return `<td class="${typeof v==='number'&&n.startsWith('Margem')?(v<0?'neg':'pos'):''}">${f(v)}</td>`}).join('')}</tr>`;
+  const r=v=>brl(v), neg=v=>v?'-'+brl(v):'–';
+  document.getElementById('dre').innerHTML=th+
+   row('Faturamento total',D.fat,r,'tot')+row('MRR',D.mrr,r,'sub')+row('Variável',D.vr,r,'sub')+
+   row('Inadimplência (já no fat.)',D.inad,v=>v?brl(v):'–','sub')+
+   row('Pessoas (ops direta)',D.pess,neg)+row('Royalties + impostos',D.roy,neg)+
+   row('Overhead pessoas / ops',D.ohP,neg)+row('Overhead infra / adm',D.ohI,neg)+row('Overhead comercial',D.ohC,neg)+
+   row('Custo de produções',D.prod,neg)+
+   row('Margem',D.mar,r,'tot')+row('Margem %',marP,v=>pct(v,1),'tot')+
+   row('Clientes pagantes (DRE)',D.cli,v=>v)+row('Ticket médio',ticket,r)+row('Pessoas no time',D.inv,v=>v)+
+   row('Faturamento por pessoa',fcab,r)+row('% folha',folha,v=>pct(v,1));
+  const out=cl.filter(c=>c.end&&c.end>=new Date(2026,3,1)).sort((a,b)=>a.end-b.end);
+  const fmt=d=>d.toLocaleDateString('pt-BR');
+  document.getElementById('churn').innerHTML=`<tr><th>Cliente</th><th>Status</th><th>Saída</th><th>Meses de casa</th><th>Fee mensal</th></tr>`+
+   out.map(c=>{const fut=c.end>new Date(2026,9,1);const fee=FEE[c.c];
+    return `<tr><td>${c.c}</td><td><span class="pill ${fut?'warn':'bad'}">${fut?'Churn programado':c.s==='Finalizado'?'Finalizado':'Churn'}</span></td><td>${fmt(c.end)}</td><td>${c.lt}</td><td>${fee?brl(fee)+(c.c==='Empório Pirana'?' (est.)':''):'–'}</td></tr>`}).join('');
+}
+
+function notes(){
+  const L=8,A=3;
+  const detr=RAW.nps.filter(x=>x.m===8&&x.n<=6).map(x=>x.c);
+  const naoResp=['GSC Segurança','Nagaura','PetTreats','Point Thermic'];
+  const N=[
+   ['Variável pesa mais na receita',`O variável foi de ${pct(D.vr[A]/D.fat[A])} do faturamento em abril para ${pct(D.vr[L]/D.fat[L])} em setembro (${k(D.vr[L])}). Vale separar o que é recorrente do que é pontual antes de projetar outubro.`],
+   ['Setembro ainda sem Detalhamento',`A aba Detalhamento termina em agosto. O salto de ${k(D.fat[L-1])} para ${k(D.fat[L])} em setembro precisa ser conferido, cliente a cliente, antes de virar referência.`],
+   ['Inadimplência',`${k(D.inad[L])} em aberto em setembro e ${k(D.inad[4])} em maio. O faturamento do DRE já inclui esses valores.`],
+   ['Detrator em setembro',`${detr.join(', ')}: nota 5, com resultados em 1 e campanhas em 2. Tem ${num(RAW.nps.filter(x=>x.m===8).length,0)} respostas no mês, então uma nota pesa ${num(100/RAW.nps.filter(x=>x.m===8).length,1)} pontos de NPS.`],
+   ['Clientes antigos sem resposta',`${naoResp.join(', ')} não responderam a pesquisa de setembro. PetTreats e Point Thermic são os mais antigos da carteira (mais de 3 anos).`],
+   ['Churn à vista',`Drogalis tem saída programada para 02/10 e fee de ${brl(7132)}. A ADias Gestão de Risco está pausada. Desde abril entraram ${ent.slice(3).reduce((a,b)=>a+b,0)} clientes e saíram ${sai.slice(3).reduce((a,b)=>a+b,0)}.`]
+  ];
+  document.getElementById('notes').innerHTML=N.map(([a,b])=>`<div class="note"><b>${a}</b>${b}</div>`).join('');
+}
+
+document.querySelectorAll('#segFat button').forEach(b=>b.onclick=()=>{fatMode=b.dataset.v;document.querySelectorAll('#segFat button').forEach(x=>x.setAttribute('aria-pressed',x===b));kpis();draw()});
+document.querySelectorAll('#segPer button').forEach(b=>b.onclick=()=>{per=b.dataset.v;document.querySelectorAll('#segPer button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw();tables()});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{draw()});
+kpis();draw();tables();notes();
+</script>

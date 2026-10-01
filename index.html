@@ -58,31 +58,15 @@ td.neg{color:var(--bad)} td.pos{color:var(--good)}
 .note b{display:block;font-family:var(--f-display);font-size:14px;margin-bottom:2px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.cardhead{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:center}
 footer{color:var(--muted);font-size:12px}
 </style>
 
 <div class="wrap">
 <header>
   <div>
-    <div class="eyebrow">Squad Falcon · Time Ivan · V4 Carvalho &amp; Co.</div>
-    <h1>Crescimento do Falcon, abril a setembro de 2026</h1>
-  </div>
-  <div class="controls">
-    <div class="ctl" role="group" aria-label="Filtro de faturamento">
-      <span class="lbl">Faturamento</span>
-      <div class="seg" id="segFat">
-        <button data-v="total" aria-pressed="true">Total</button>
-        <button data-v="mrr" aria-pressed="false">MRR</button>
-        <button data-v="var" aria-pressed="false">Variável</button>
-      </div>
-    </div>
-    <div class="ctl" role="group" aria-label="Período">
-      <span class="lbl">Período</span>
-      <div class="seg" id="segPer">
-        <button data-v="abr" aria-pressed="true">Abr–Set</button>
-        <button data-v="jan" aria-pressed="false">Jan–Set</button>
-      </div>
-    </div>
+    <div class="eyebrow">Squad Falcon · Time Ivan · V4 Carvalho &amp; Co. · marco em abril, quando o Ivan assume o squad</div>
+    <h1>Crescimento do Falcon em 2026</h1>
   </div>
 </header>
 
@@ -90,7 +74,12 @@ footer{color:var(--muted);font-size:12px}
 
 <section class="grid">
   <div class="card">
-    <h2 id="tFat">Faturamento mensal</h2>
+    <div class="cardhead"><h2 id="tFat">Faturamento mensal</h2>
+      <div class="seg" id="segFat" role="group" aria-label="Filtro de faturamento">
+        <button data-v="total" aria-pressed="true">Total</button>
+        <button data-v="mrr" aria-pressed="false">MRR</button>
+        <button data-v="var" aria-pressed="false">Variável</button>
+      </div></div>
     <p class="sub">MRR é a receita recorrente (fees). Variável soma performance, estruturação e projetos pontuais.</p>
     <div class="legend"><span><i style="background:var(--accent)"></i>MRR</span><span><i style="background:var(--var)"></i>Variável</span></div>
     <div class="chart"><canvas id="cFat" role="img" aria-label="Faturamento mensal em MRR e variável"></canvas></div>
@@ -101,8 +90,8 @@ footer{color:var(--muted);font-size:12px}
     <div class="chart"><canvas id="cMar" role="img" aria-label="Margem em reais e percentual por mês"></canvas></div>
   </div>
   <div class="card">
-    <h2>Clientes na base</h2>
-    <p class="sub">Posição no fim de cada mês, a partir da base de clientes. Entradas e saídas no mês.</p>
+    <h2>Clientes na base e churn</h2>
+    <p class="sub">Linha: clientes na base no fim do mês. Barras: entradas (verde) e churn (vermelho). Clientes finalizados não contam como churn.</p>
     <div class="chart"><canvas id="cCli" role="img" aria-label="Clientes ativos, entradas e saídas por mês"></canvas></div>
   </div>
   <div class="card">
@@ -124,17 +113,6 @@ footer{color:var(--muted);font-size:12px}
   <div class="card wide">
     <h2>DRE resumido</h2>
     <div class="tbl"><table id="dre"></table></div>
-  </div>
-
-  <div class="card wide">
-    <h2>Saídas de clientes desde abril</h2>
-    <p class="sub">Fee mensal conforme a aba Detalhamento do DRE. Onde não há lançamento, o campo fica em branco.</p>
-    <div class="tbl"><table id="churn"></table></div>
-  </div>
-
-  <div class="card wide">
-    <h2>Pontos de atenção</h2>
-    <div class="notes" id="notes"></div>
   </div>
 </div>
 <footer>Fontes: DRE FALCON (abas Jan–Mai, Jun–Dez e Detalhamento), Base de Clientes e NPS Q2. Valores de setembro seguem o DRE como lançado.</footer>
@@ -175,7 +153,8 @@ const eom=m=>new Date(2026,m+1,0,23,59,59);
 const inMonth=(d,m)=>d&&d.getFullYear()==2026&&d.getMonth()==m;
 const base=M.map((_,m)=>cl.filter(c=>c.start<=eom(m)&&!(c.end&&c.end<=eom(m))).length);
 const ent=M.map((_,m)=>cl.filter(c=>inMonth(c.start,m)).length);
-const sai=M.map((_,m)=>cl.filter(c=>inMonth(c.end,m)&&!(c.c==='Drogalis')).length);
+const sai=M.map((_,m)=>cl.filter(c=>inMonth(c.end,m)&&c.s!=='Finalizado').length);
+const churnR=M.map((_,m)=>m?sai[m]/base[m-1]:0);
 const folha=D.pess.map((v,i)=>v/D.fat[i]);
 const marP=D.mar.map((v,i)=>v/D.fat[i]);
 const ticket=D.fat.map((v,i)=>v/D.cli[i]);
@@ -194,31 +173,38 @@ const respM=M.map((_,m)=>{ // taxa de resposta aproximada: respondidas / (respon
 const CRIT=['Atendimento','Campanhas','Copy','Design','Prazos','Resultados'];
 const critAvg=m=>CRIT.map((_,i)=>{const v=RAW.nps.filter(x=>x.m===m&&x.cr[i]!=null).map(x=>x.cr[i]);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null});
 
-let fatMode='total',per='abr',charts=[];
+let fatMode='total',per='jan',charts=[];
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const fatSeries=()=>fatMode==='mrr'?D.mrr:fatMode==='var'?D.vr:D.fat;
 const fatLabel=()=>fatMode==='mrr'?'MRR':fatMode==='var'?'Faturamento variável':'Faturamento total';
 
 function kpis(){
-  const s=fatSeries(),L=8,A=3;
+  const L=8,A=3,churnTot=sai.slice(A).reduce((a,b)=>a+b,0),entTot=ent.slice(A).reduce((a,b)=>a+b,0);
   const dl=(a,b,lbl)=>{const g=(a-b)/Math.abs(b);return `<span class="${g>=0?'up':'down'}">${g>=0?'▲':'▼'} ${pct(Math.abs(g))}</span> ${lbl}`};
   const items=[
-   [fatLabel()+' · set',k(s[L]),dl(s[L],s[A],'vs abril')],
+   ['Faturamento total · set',k(D.fat[L]),dl(D.fat[L],D.fat[A],'vs abril')],
    ['Margem · set',k(D.mar[L]),`${pct(marP[L])} do fat. · abril ${k(D.mar[A])} (${pct(marP[A])})`],
    ['Clientes na base · fim de set',base[L],`${base[L]-base[A]>=0?'+':''}${base[L]-base[A]} vs fim de abril · ${D.cli[L]} pagantes no DRE`],
    ['NPS · set',num(npsM[L].nps,1),`${npsM[L].n} respostas · ${npsM[L].d} detrator`],
    ['% folha · set',pct(folha[L],1),`abril ${pct(folha[A],1)} · meta 30%`],
    ['Faturamento por pessoa · set',k(fcab[L]),dl(fcab[L],fcab[A],'vs abril')],
    ['Ticket médio · set',k(ticket[L]),dl(ticket[L],ticket[A],'vs abril')],
+   ['Churn desde abril',churnTot+' clientes',`${entTot} entradas no período · set: ${sai[L]} saída`],
    ['Variável no faturamento · set',pct(D.vr[L]/D.fat[L]),`abril ${pct(D.vr[A]/D.fat[A])} · MRR ${k(D.mrr[L])}`]
   ];
   document.getElementById('kpis').innerHTML=items.map(([a,b,c])=>`<div class="kpi"><span class="k">${a}</span><span class="v">${b}</span><span class="d">${c}</span></div>`).join('');
 }
 
-function mk(id,cfg){charts.push(new Chart(document.getElementById(id),cfg))}
+const bx=ch=>(ch.scales.x.getPixelForValue(2)+ch.scales.x.getPixelForValue(3))/2;
+const marker={id:'marker',beforeDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=bx(ch);
+  c.save();c.fillStyle=css('--grid');c.globalAlpha=.45;c.fillRect(a.left,a.top,px-a.left,a.bottom-a.top);c.restore()},
+ afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=bx(ch);
+  c.save();c.strokeStyle=css('--ink');c.setLineDash([4,4]);c.lineWidth=1;c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();
+  c.setLineDash([]);c.fillStyle=css('--ink');c.font="500 11px 'IBM Plex Sans',sans-serif";c.textAlign='left';c.fillText('Abr · Ivan assume',px+6,a.top+12);c.restore()}};
+function mk(id,cfg){if(id!=='cNps'&&id!=='cCrit')cfg.plugins=[marker];charts.push(new Chart(document.getElementById(id),cfg))}
 function draw(){
   charts.forEach(c=>c.destroy());charts=[];
-  const s=per==='abr'?3:0,lab=M.slice(s),sl=a=>a.slice(s);
+  const s=0,lab=M.slice(s),sl=a=>a.slice(s);
   const ink=css('--muted'),grid=css('--grid'),acc=css('--accent'),vr=css('--var'),good=css('--good'),bad=css('--bad'),surf=css('--surface');
   Chart.defaults.font.family="'IBM Plex Sans',sans-serif";Chart.defaults.color=ink;Chart.defaults.font.size=12;
   const ax=(o={})=>({grid:{color:grid},border:{display:false},ticks:{color:ink,...(o.ticks||{})},...o});
@@ -235,14 +221,14 @@ function draw(){
   mk('cMar',{data:{labels:lab,datasets:[
     {type:'bar',label:'Margem R$',data:sl(D.mar),backgroundColor:sl(D.mar).map(v=>v>=0?good:bad),borderRadius:3,yAxisID:'y'},
     {type:'line',label:'Margem %',data:sl(marP).map(v=>v*100),borderColor:ink,backgroundColor:ink,pointRadius:4,tension:.25,yAxisID:'y1'}]},
-    options:{...base0,plugins:{...base0.plugins,tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y'?'Margem: '+brl(c.parsed.y):'Margem: '+num(c.parsed.y,1)+'%'}}},scales:{x:base0.scales.x,y:ax({min:-40000,max:40000,ticks:{callback:v=>v/1000+'k'}}),y1:{position:'right',min:-40,max:40,grid:{display:false},border:{display:false},ticks:{callback:v=>v+'%',color:ink}}}}});
+    options:{...base0,plugins:{...base0.plugins,tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y'?'Margem: '+brl(c.parsed.y):'Margem: '+num(c.parsed.y,1)+'%'}}},scales:{x:base0.scales.x,y:ax({min:-70000,max:50000,ticks:{callback:v=>v/1000+'k'}}),y1:{position:'right',min:-140,max:100,grid:{display:false},border:{display:false},ticks:{callback:v=>v+'%',color:ink}}}}});
 
   // Clientes
   mk('cCli',{data:{labels:lab,datasets:[
     {type:'bar',label:'Entradas',data:sl(ent),backgroundColor:good,borderRadius:3,yAxisID:'y'},
-    {type:'bar',label:'Saídas',data:sl(sai).map(v=>-v),backgroundColor:bad,borderRadius:3,yAxisID:'y'},
+    {type:'bar',label:'Churn',data:sl(sai).map(v=>-v),backgroundColor:bad,borderRadius:3,yAxisID:'y'},
     {type:'line',label:'Clientes na base',data:sl(base),borderColor:acc,backgroundColor:acc,pointRadius:4,tension:.25,yAxisID:'y'}]},
-    options:{...base0,plugins:{legend:{display:true,labels:{boxWidth:10,color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`}}},scales:{x:base0.scales.x,y:ax({min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
+    options:{...base0,plugins:{legend:{display:true,labels:{boxWidth:10,color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`,footer:i=>{const m=i[0].dataIndex;return m?'Taxa de churn do mês: '+pct(churnR[m],1):''}}}},scales:{x:base0.scales.x,y:ax({min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
 
   // Produtividade
   mk('cProd',{data:{labels:lab,datasets:[
@@ -267,7 +253,7 @@ function draw(){
 }
 
 function tables(){
-  const s=per==='abr'?3:0,idx=M.map((_,i)=>i).slice(s);
+  const s=0,idx=M.map((_,i)=>i).slice(s);
   const th=`<tr><th></th>${idx.map(i=>`<th>${M[i]}</th>`).join('')}</tr>`;
   const row=(n,a,f,cls='')=>`<tr class="${cls}"><td>${n}</td>${idx.map(i=>{const v=a[i];return `<td class="${typeof v==='number'&&n.startsWith('Margem')?(v<0?'neg':'pos'):''}">${f(v)}</td>`}).join('')}</tr>`;
   const r=v=>brl(v), neg=v=>v?'-'+brl(v):'–';
@@ -280,30 +266,9 @@ function tables(){
    row('Margem',D.mar,r,'tot')+row('Margem %',marP,v=>pct(v,1),'tot')+
    row('Clientes pagantes (DRE)',D.cli,v=>v)+row('Ticket médio',ticket,r)+row('Pessoas no time',D.inv,v=>v)+
    row('Faturamento por pessoa',fcab,r)+row('% folha',folha,v=>pct(v,1));
-  const out=cl.filter(c=>c.end&&c.end>=new Date(2026,3,1)).sort((a,b)=>a.end-b.end);
-  const fmt=d=>d.toLocaleDateString('pt-BR');
-  document.getElementById('churn').innerHTML=`<tr><th>Cliente</th><th>Status</th><th>Saída</th><th>Meses de casa</th><th>Fee mensal</th></tr>`+
-   out.map(c=>{const fut=c.end>new Date(2026,9,1);const fee=FEE[c.c];
-    return `<tr><td>${c.c}</td><td><span class="pill ${fut?'warn':'bad'}">${fut?'Churn programado':c.s==='Finalizado'?'Finalizado':'Churn'}</span></td><td>${fmt(c.end)}</td><td>${c.lt}</td><td>${fee?brl(fee)+(c.c==='Empório Pirana'?' (est.)':''):'–'}</td></tr>`}).join('');
 }
 
-function notes(){
-  const L=8,A=3;
-  const detr=RAW.nps.filter(x=>x.m===8&&x.n<=6).map(x=>x.c);
-  const naoResp=['GSC Segurança','Nagaura','PetTreats','Point Thermic'];
-  const N=[
-   ['Variável pesa mais na receita',`O variável foi de ${pct(D.vr[A]/D.fat[A])} do faturamento em abril para ${pct(D.vr[L]/D.fat[L])} em setembro (${k(D.vr[L])}). Vale separar o que é recorrente do que é pontual antes de projetar outubro.`],
-   ['Setembro ainda sem Detalhamento',`A aba Detalhamento termina em agosto. O salto de ${k(D.fat[L-1])} para ${k(D.fat[L])} em setembro precisa ser conferido, cliente a cliente, antes de virar referência.`],
-   ['Inadimplência',`${k(D.inad[L])} em aberto em setembro e ${k(D.inad[4])} em maio. O faturamento do DRE já inclui esses valores.`],
-   ['Detrator em setembro',`${detr.join(', ')}: nota 5, com resultados em 1 e campanhas em 2. Tem ${num(RAW.nps.filter(x=>x.m===8).length,0)} respostas no mês, então uma nota pesa ${num(100/RAW.nps.filter(x=>x.m===8).length,1)} pontos de NPS.`],
-   ['Clientes antigos sem resposta',`${naoResp.join(', ')} não responderam a pesquisa de setembro. PetTreats e Point Thermic são os mais antigos da carteira (mais de 3 anos).`],
-   ['Churn à vista',`Drogalis tem saída programada para 02/10 e fee de ${brl(7132)}. A ADias Gestão de Risco está pausada. Desde abril entraram ${ent.slice(3).reduce((a,b)=>a+b,0)} clientes e saíram ${sai.slice(3).reduce((a,b)=>a+b,0)}.`]
-  ];
-  document.getElementById('notes').innerHTML=N.map(([a,b])=>`<div class="note"><b>${a}</b>${b}</div>`).join('');
-}
-
-document.querySelectorAll('#segFat button').forEach(b=>b.onclick=()=>{fatMode=b.dataset.v;document.querySelectorAll('#segFat button').forEach(x=>x.setAttribute('aria-pressed',x===b));kpis();draw()});
-document.querySelectorAll('#segPer button').forEach(b=>b.onclick=()=>{per=b.dataset.v;document.querySelectorAll('#segPer button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw();tables()});
+document.querySelectorAll('#segFat button').forEach(b=>b.onclick=()=>{fatMode=b.dataset.v;document.querySelectorAll('#segFat button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()});
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{draw()});
-kpis();draw();tables();notes();
+kpis();draw();tables();
 </script>

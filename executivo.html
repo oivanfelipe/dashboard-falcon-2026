@@ -47,8 +47,6 @@ h2.sec span{color:var(--r)}
 .h-side{grid-column:8/13;grid-row:1;margin-top:128px;margin-left:-24px;background:var(--w);border:2px solid var(--k);box-shadow:12px 12px 0 var(--k);padding:32px;position:relative;z-index:2;min-width:0}
 .h-side .n{font-size:clamp(64px,8vw,120px);color:var(--r);margin-top:8px}
 .h-side p{margin:16px 0 0;font-weight:500}
-.h-side .bar{height:16px;border:2px solid var(--k);margin-top:16px;position:relative}
-.h-side .bar i{position:absolute;inset:0 auto 0 0;background:var(--k)}
 
 /* kpis */
 .kp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:64px}
@@ -120,7 +118,7 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
     <a href="#resumo" aria-current="true">Resumo</a>
     <a href="#financeiro">Financeiro</a>
     <a href="#clientes">Clientes</a>
-    <a href="#placar">Abr → Set</a>
+    <a href="#placar">Mar → Set</a>
   </div>
 </nav>
 
@@ -136,7 +134,6 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
     <span class="tag">Margem do squad · set</span>
     <div class="mega n" id="marPct"></div>
     <p id="marTxt"></p>
-    <div class="bar" aria-hidden="true"><i id="marBar"></i></div>
   </aside>
 </header>
 
@@ -157,7 +154,7 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
           <button data-v="var" aria-pressed="false">Variável</button>
         </div>
       </div>
-      <div class="lg"><span><i style="background:var(--k)"></i>MRR</span><span><i style="background:var(--r);border-color:var(--r)"></i>Variável</span><span class="mk">Abril · Ivan assume</span></div>
+      <div class="lg"><span><i style="background:var(--k)"></i>MRR</span><span><i style="background:var(--r);border-color:var(--r)"></i>Variável</span><span class="mk">Abril · Ivan assume</span><span class="lg" style="font-weight:500">Comparações financeiras: base março</span></div>
       <div class="chart"><canvas id="cFat" role="img" aria-label="Faturamento mensal em MRR e variável"></canvas></div>
     </div>
     <div class="card inv c5 off">
@@ -173,7 +170,7 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
   <div class="cg">
     <div class="card c7">
       <h3>Clientes na base e churn</h3>
-      <p>Linha: clientes na base no fim do mês. Barras: entradas em preto e churn em vermelho. Finalizados não contam como churn.</p>
+      <p>De abril em diante. Linha: clientes na base no fim do mês. Barras: entradas em preto e churn em vermelho. Finalizados não contam como churn.</p>
       <div class="chart"><canvas id="cCli" role="img" aria-label="Clientes na base, entradas e churn por mês"></canvas></div>
     </div>
     <div class="card c5 off">
@@ -185,7 +182,7 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
 </section>
 
 <section class="blk" id="placar">
-  <div class="sh"><h2 class="sec">Abril <span>→</span> setembro</h2><span class="tag">Quando o Ivan assume, contra hoje</span></div>
+  <div class="sh"><h2 class="sec">Março <span>→</span> setembro</h2><span class="tag">O time como foi recebido, contra hoje</span></div>
   <div class="tw"><table id="board"></table></div>
 </section>
 
@@ -204,7 +201,7 @@ const D={
  cli:[8,7,8,10,10,17,20,19,20], inv:[6,5,5,7,6,6,7,7,7]
 };
 D.fat=D.mrr.map((v,i)=>v+D.vr[i]);
-const L=8,A=3,K='#000000',W='#FFFFFF',R='#E10600';
+const L=8,A=3,B=2,K='#000000',W='#FFFFFF',R='#E10600';
 const pd=s=>{const[a,b,c]=s.split('/').map(Number);return new Date(c,b-1,a)};
 const cl=RAW.cl.map(c=>({...c,start:pd(c.i),end:c.x?pd(c.x):null}));
 const eom=m=>new Date(2026,m+1,0,23,59,59), inM=(d,m)=>d&&d.getFullYear()==2026&&d.getMonth()==m;
@@ -224,11 +221,10 @@ const sig=v=>(v>=0?'+':'-')+pct(Math.abs(v));
 
 // hero
 document.getElementById('heroNum').innerHTML='R$&nbsp;'+nf(D.fat[L]/1000,1)+'<small>MIL</small>';
-document.getElementById('heroDelta').textContent=sig(g(D.fat[L],D.fat[A]))+' vs abril';
-document.getElementById('heroSub').textContent='Abril: '+mil(D.fat[A])+' · '+nf(D.fat[L]/D.fat[A],1)+'x em 5 meses';
+document.getElementById('heroDelta').textContent=sig(g(D.fat[L],D.fat[B]))+' vs março';
+document.getElementById('heroSub').textContent='Março: '+mil(D.fat[B])+' · '+nf(D.fat[L]/D.fat[B],1)+'x em 6 meses';
 document.getElementById('marPct').textContent=pct(marP[L]);
-document.getElementById('marTxt').textContent=mil(D.mar[L])+' de margem em setembro. Em abril: '+mil(D.mar[A])+' ('+pct(marP[A])+').';
-document.getElementById('marBar').style.width=Math.max(0,marP[L]*100/30*100)+'%';
+document.getElementById('marTxt').textContent=mil(D.mar[L])+' de margem em setembro. Em março: '+mil(D.mar[B])+' ('+pct(marP[B])+').';
 
 // kpis
 const ic={
@@ -238,9 +234,9 @@ const ic={
  c:'<svg viewBox="0 0 24 24"><path d="M3 12h13M11 6l6 6-6 6M21 4v16"/></svg>'};
 const churnTot=sai.slice(A).reduce((a,b)=>a+b,0), entTot=ent.slice(A).reduce((a,b)=>a+b,0);
 const kp=[
- ['Clientes na base',ic.u,base[L],'',`+${base[L]-base[A]} desde abril · ${D.cli[L]} pagantes no DRE`,0],
+ ['Clientes na base',ic.u,base[L],'',`+${base[L]-base[B]} desde março · ${D.cli[L]} pagantes no DRE`,0],
  ['NPS · set',ic.n,nf(npsM[L].v,0),'',`${npsM[L].n} respostas · 1 detrator`,1],
- ['% folha',ic.f,nf(folha[L]*100,1),'%',`Abril: ${pct(folha[A],1)} · meta 30%`,0],
+ ['% folha',ic.f,nf(folha[L]*100,1),'%',`Março: ${pct(folha[B],1)} · meta 30%`,0],
  ['Churn desde abril',ic.c,churnTot,'',`${entTot} entradas no período`,1]];
 document.getElementById('kp').innerHTML=kp.map(([t,i,n,u,s,inv])=>`<div class="kb${inv?' inv':''}"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}${u?'<em>'+u+'</em>':''}</div><div class="s">${s}</div></div>`).join('');
 
@@ -269,11 +265,11 @@ function draw(){
   mk('cMar',{type:'bar',data:{labels:M,datasets:[{label:'Margem',data:D.mar,backgroundColor:D.mar.map(v=>v>=0?R:K),borderColor:D.mar.map(v=>v>=0?R:W),borderWidth:2,borderSkipped:false}]},plugins:[mark()],
     options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:{grid:{display:false},border:{color:W,width:2},ticks:{color:W,font:{weight:800}}},y:ax(true,{ticks:{callback:v=>v/1000+'k'}})}}},true);
   // clientes + churn
-  mk('cCli',{data:{labels:M,datasets:[
-    {type:'bar',label:'Entradas',data:ent,backgroundColor:K,borderColor:K,borderWidth:2},
-    {type:'bar',label:'Churn',data:sai.map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:2},
-    {type:'line',label:'Clientes na base',data:base,borderColor:K,backgroundColor:W,borderWidth:4,pointRadius:6,pointBorderWidth:3,pointBorderColor:K,pointStyle:'rect',tension:0}]},
-    plugins:[mark()],options:{plugins:{legend:{display:true,labels:{color:K,boxWidth:12,boxHeight:12,font:{weight:800}}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`}}},scales:{x:xx,y:ax(false,{min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
+  mk('cCli',{data:{labels:M.slice(A),datasets:[
+    {type:'bar',label:'Entradas',data:ent.slice(A),backgroundColor:K,borderColor:K,borderWidth:2},
+    {type:'bar',label:'Churn',data:sai.slice(A).map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:2},
+    {type:'line',label:'Clientes na base',data:base.slice(A),borderColor:K,backgroundColor:W,borderWidth:4,pointRadius:6,pointBorderWidth:3,pointBorderColor:K,pointStyle:'rect',tension:0}]},
+    options:{plugins:{legend:{display:true,labels:{color:K,boxWidth:12,boxHeight:12,font:{weight:800}}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`}}},scales:{x:xx,y:ax(false,{min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
   // nps
   const nl=M.slice(A);
   mk('cNps',{type:'bar',data:{labels:nl,datasets:[{label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:nl.map((_,i)=>i===nl.length-1?R:K),borderColor:K,borderWidth:2}]},
@@ -286,10 +282,10 @@ const rows=[
  ['Faturamento',D.fat,mil,'g'],['MRR',D.mrr,mil,'g'],['Variável',D.vr,mil,'g'],
  ['Margem R$',D.mar,mil,'r'],['Margem %',marP,v=>pct(v,1),'pp'],
  ['Clientes na base',base,v=>v,'n'],['Ticket médio',ticket,mil,'g'],['Faturamento por pessoa',fcab,mil,'g'],
- ['% folha',folha,v=>pct(v,1),'pp'],['NPS',npsM.map(x=>x&&x.v),v=>nf(v,1),'n']];
+ ['% folha',folha,v=>pct(v,1),'pp'],['NPS (base: abril)',npsM.map(x=>x&&x.v),v=>nf(v,1),'n']];
 const dl=(a,s,t)=>t==='g'?sig(g(s,a)):t==='r'?(s>=a?'+':'')+mil(s-a):t==='pp'?(s>=a?'+':'')+nf((s-a)*100,1)+' p.p.':(s>=a?'+':'')+nf(s-a,0);
-document.getElementById('board').innerHTML='<thead><tr><th>Indicador</th><th>Abril</th><th>Setembro</th><th>Variação</th></tr></thead><tbody>'+
- rows.map(([n,a,f,t])=>`<tr><td>${n}</td><td>${f(a[A])}</td><td>${f(a[L])}</td><td class="d">${dl(a[A],a[L],t)}</td></tr>`).join('')+'</tbody>';
+document.getElementById('board').innerHTML='<thead><tr><th>Indicador</th><th>Março</th><th>Setembro</th><th>Variação</th></tr></thead><tbody>'+
+ rows.map(([n,a,f,t])=>{const b=n.startsWith('NPS')?A:B;return `<tr><td>${n}</td><td>${f(a[b])}</td><td>${f(a[L])}</td><td class="d">${dl(a[b],a[L],t)}</td></tr>`}).join('')+'</tbody>';
 
 // nav ativa
 const secs=[...document.querySelectorAll('#resumo,#financeiro,#clientes,#placar')], lk=[...document.querySelectorAll('#links a')];

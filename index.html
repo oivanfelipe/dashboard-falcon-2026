@@ -130,6 +130,42 @@ tr.t td{font-weight:900} tr.s td:first-child{padding-left:32px}
 tbody td{font-size:14px}
 @media(max-width:980px){.dh{grid-template-columns:minmax(0,1fr)}.kb:nth-child(n){transform:none}.kp.k8{row-gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.kp.k8{grid-template-columns:minmax(0,1fr)}.tw td,.tw th{padding:12px 8px}}
+
+/* versão leve do detalhado: mesma identidade, menos peso */
+body{font-size:14px}
+.dh{margin-top:32px}
+.dh h1{font-size:clamp(36px,5vw,64px)}
+h2.sec{font-size:clamp(24px,3vw,36px)}
+section.blk{margin-top:56px}
+.sh{margin-bottom:16px}
+.kp.k8{gap:16px;row-gap:16px;margin-top:32px}
+.kb:nth-child(n){transform:none}
+.kb,.kb.inv{border-width:1px;box-shadow:3px 3px 0 var(--k);padding:16px;gap:4px;background:var(--w);color:var(--k)}
+.kb .n{font-size:clamp(32px,3vw,44px);font-weight:800;letter-spacing:-.02em}
+.kb .n em{font-size:.5em}
+.kb .tag{font-size:11px;font-weight:700;letter-spacing:.1em}
+.kb .s{font-size:12.5px;color:#444}
+.kb .s b.up,.kb.inv .s b.up{color:var(--r);background:none;padding:0}
+.cg{gap:24px;align-items:stretch}
+.card,.card.inv{border-width:1px;box-shadow:3px 3px 0 var(--k);padding:20px;gap:12px;background:var(--w);color:var(--k)}
+.card h3{font-size:15px;letter-spacing:0}
+.card p{font-size:12.5px;color:#444}
+.chart{height:280px}
+.lg{font-size:11px;font-weight:700}
+.lg i{border-width:1px}
+.tw{border-width:1px;box-shadow:3px 3px 0 var(--k)}
+thead th{background:var(--w);color:var(--k);border-bottom:2px solid var(--k);font-size:11px}
+th,td{border-bottom:1px solid #E3E3E3}
+.tw td,.tw th{padding:10px 14px}
+tbody td{font-weight:500;font-size:13px}
+tbody td:first-child{font-weight:700;font-size:12px;letter-spacing:.04em}
+tr.t td{font-weight:800;background:#F5F5F5}
+th.base{background:var(--w);color:var(--r);border-bottom-color:var(--r)}
+td.base{background:#FFF1F0;color:var(--k)}
+td.ng,td.base.ng{color:var(--r)}
+.btn{box-shadow:3px 3px 0 var(--k);border-width:1px;padding:10px 14px}
+.seg{border-width:1px;box-shadow:3px 3px 0 var(--k)}
+.seg button+button{border-left-width:1px}
 </style>
 
 <nav>
@@ -172,7 +208,7 @@ tbody td{font-size:14px}
       <div class="lg"><span><i style="background:var(--k)"></i>MRR</span><span><i style="background:var(--r);border-color:var(--r)"></i>Variável</span><span class="mk">Abril · Ivan assume</span></div>
       <div class="chart"><canvas id="cFat" role="img" aria-label="Faturamento mensal em MRR e variável"></canvas></div>
     </div>
-    <div class="card inv c5 off">
+    <div class="card c5">
       <h3>Margem em R$</h3>
       <p>Depois de pessoas, royalties, impostos e overheads. Barra vermelha: margem positiva.</p>
       <div class="chart"><canvas id="cMar" role="img" aria-label="Margem em reais por mês"></canvas></div>
@@ -182,7 +218,7 @@ tbody td{font-size:14px}
       <p>Margem sobre o faturamento total.</p>
       <div class="chart"><canvas id="cMarP" role="img" aria-label="Margem percentual por mês"></canvas></div>
     </div>
-    <div class="card c7 off">
+    <div class="card c7">
       <h3>Produtividade do time</h3>
       <p>Barras: faturamento por pessoa do time. Linha vermelha: % de folha sobre o faturamento. Tracejado: meta de 30%.</p>
       <div class="chart"><canvas id="cProd" role="img" aria-label="Faturamento por pessoa e percentual de folha"></canvas></div>
@@ -198,12 +234,12 @@ tbody td{font-size:14px}
       <p>De abril em diante. Linha: clientes na base no fim do mês. Barras: entradas em preto e churn em vermelho. Finalizados não contam como churn.</p>
       <div class="chart"><canvas id="cCli" role="img" aria-label="Clientes na base, entradas e churn por mês"></canvas></div>
     </div>
-    <div class="card c5 off">
+    <div class="card c5">
       <h3>NPS do squad</h3>
       <p>Barras: NPS do mês. Linha vermelha: taxa de resposta.</p>
       <div class="chart"><canvas id="cNps" role="img" aria-label="NPS e taxa de resposta por mês"></canvas></div>
     </div>
-    <div class="card inv c12">
+    <div class="card c12">
       <h3>Nota por critério</h3>
       <p>Média das notas, de 1 a 5, nas pesquisas de agosto e setembro.</p>
       <div class="chart" style="height:260px"><canvas id="cCrit" role="img" aria-label="Nota média por critério"></canvas></div>
@@ -277,13 +313,13 @@ const kp=[
  ['% folha · set',ic.p,nf(folha[L]*100,1)+'<em>%</em>',`março ${pct(folha[B],1)} · meta 30%`,1],
  ['Fat. por pessoa · set',ic.t,'R$ '+nf(fcab[L]/1000,1)+'<em>mil</em>',dv(fcab[L],fcab[B]),0],
  ['Variável no fat. · set',ic.v,pct(D.vr[L]/D.fat[L]),`março ${pct(D.vr[B]/D.fat[B])} · MRR ${mil(D.mrr[L])}`,1]];
-document.getElementById('kp').innerHTML=kp.map(([t,i,n,s,inv])=>`<div class="kb${inv?' inv':''}"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}</div><div class="s">${s}</div></div>`).join('');
+document.getElementById('kp').innerHTML=kp.map(([t,i,n,s,inv])=>`<div class="kb"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}</div><div class="s">${s}</div></div>`).join('');
 
 let mode='total',charts=[];
 const Q=ch=>(ch.scales.x.getPixelForValue(2)+ch.scales.x.getPixelForValue(3))/2;
-const mark=()=>({id:'m',afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=Q(ch);c.save();c.strokeStyle=R;c.lineWidth=3;c.setLineDash([6,5]);c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();c.setLineDash([]);c.fillStyle=R;c.font="800 11px Archivo,Arial,sans-serif";c.fillText('ABRIL',px+8,a.top+12);c.restore()}});
-const ax=(dark,o={})=>{const ink=dark?W:K;return {grid:{color:dark?'#333':'#D9D9D9'},border:{color:ink,width:2},ticks:{color:ink,font:{weight:700},...(o.ticks||{})},...o}};
-const xa=dark=>({grid:{display:false},border:{color:dark?W:K,width:2},ticks:{color:dark?W:K,font:{weight:800}}});
+const mark=()=>({id:'m',afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=Q(ch);c.save();c.fillStyle='rgba(0,0,0,.05)';c.fillRect(ch.chartArea.left,a.top,px-a.left,a.bottom-a.top);c.strokeStyle=R;c.lineWidth=2;c.setLineDash([6,5]);c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();c.setLineDash([]);c.fillStyle=R;c.font="800 11px Archivo,Arial,sans-serif";c.fillText('ABRIL',px+8,a.top+12);c.restore()}});
+const ax=(dark,o={})=>{const ink=dark?W:K;return {grid:{color:'#E6E6E6'},border:{color:ink,width:1},ticks:{color:ink,font:{weight:600},...(o.ticks||{})},...o}};
+const xa=dark=>({grid:{display:false},border:{color:dark?W:K,width:1},ticks:{color:dark?W:K,font:{weight:600}}});
 function mk(id,cfg){cfg.options={responsive:true,maintainAspectRatio:false,animation:false,...cfg.options};
   cfg.options.plugins={legend:{display:false},tooltip:{backgroundColor:K,titleColor:W,bodyColor:W,borderColor:R,borderWidth:2,cornerRadius:0,padding:12,...(cfg.options.plugins?.tooltip||{})},...(cfg.options.plugins?.legend?{legend:cfg.options.plugins.legend}:{})};
   charts.push(new Chart(document.getElementById(id),cfg))}
@@ -291,37 +327,37 @@ const leg=dark=>({display:true,labels:{color:dark?W:K,boxWidth:12,boxHeight:12,f
 function draw(){
   charts.forEach(c=>c.destroy());charts=[];
   Chart.defaults.font.family="Archivo,Arial,sans-serif";
-  const bar=(label,data,col,stack)=>({label,data,stack,backgroundColor:data.map((_,i)=>i<A?W:col),borderColor:col,borderWidth:2,borderSkipped:false});
+  const bar=(label,data,col,stack)=>({label,data,stack,backgroundColor:col,borderColor:col,borderWidth:0,borderSkipped:false});
   const ds=[];
   if(mode!=='var')ds.push(bar('MRR',D.mrr,K,'a'));
   if(mode!=='mrr')ds.push(bar('Variável',D.vr,R,'a'));
   document.getElementById('tFat').textContent=mode==='mrr'?'MRR':mode==='var'?'Faturamento variável':'Faturamento total';
   mk('cFat',{type:'bar',data:{labels:M,datasets:ds},plugins:[mark()],options:{plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: R$ ${nf(c.parsed.y,0)}`,footer:i=>mode==='total'?'Total: R$ '+nf(i.reduce((a,b)=>a+b.parsed.y,0),0):''}}},scales:{x:{...xa(false),stacked:true},y:ax(false,{stacked:true,ticks:{callback:v=>v/1000+'k'}})}}});
-  mk('cMar',{type:'bar',data:{labels:M,datasets:[{label:'Margem',data:D.mar,backgroundColor:D.mar.map(v=>v>=0?R:K),borderColor:D.mar.map(v=>v>=0?R:W),borderWidth:2,borderSkipped:false}]},plugins:[mark()],
-    options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:xa(true),y:ax(true,{ticks:{callback:v=>v/1000+'k'}})}}});
-  mk('cMarP',{type:'line',data:{labels:M,datasets:[{label:'Margem %',data:marP.map(v=>v*100),borderColor:R,backgroundColor:W,borderWidth:4,pointRadius:6,pointBorderWidth:3,pointBorderColor:R,pointStyle:'rect',tension:0}]},plugins:[mark()],
+  mk('cMar',{type:'bar',data:{labels:M,datasets:[{label:'Margem',data:D.mar,backgroundColor:D.mar.map(v=>v>=0?R:K),borderColor:D.mar.map(v=>v>=0?R:K),borderWidth:0,borderSkipped:false}]},plugins:[mark()],
+    options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:xa(false),y:ax(false,{ticks:{callback:v=>v/1000+'k'}})}}});
+  mk('cMarP',{type:'line',data:{labels:M,datasets:[{label:'Margem %',data:marP.map(v=>v*100),borderColor:R,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:R,pointStyle:'circle',tension:0}]},plugins:[mark()],
     options:{plugins:{tooltip:{callbacks:{label:c=>'Margem: '+nf(c.parsed.y,1)+'%'}}},scales:{x:xa(false),y:ax(false,{ticks:{callback:v=>v+'%'}})}}});
   mk('cProd',{data:{labels:M,datasets:[
-    {type:'bar',label:'Fat. por pessoa',data:fcab,yAxisID:'y',backgroundColor:fcab.map((_,i)=>i<A?W:K),borderColor:K,borderWidth:2},
-    {type:'line',label:'% folha',data:folha.map(v=>v*100),yAxisID:'y1',borderColor:R,backgroundColor:W,borderWidth:4,pointRadius:5,pointBorderWidth:3,pointBorderColor:R,pointStyle:'rect',tension:0},
+    {type:'bar',label:'Fat. por pessoa',data:fcab,yAxisID:'y',backgroundColor:K,borderColor:K,borderWidth:0},
+    {type:'line',label:'% folha',data:folha.map(v=>v*100),yAxisID:'y1',borderColor:R,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:R,pointStyle:'circle',tension:0},
     {type:'line',label:'Meta 30%',data:M.map(()=>30),yAxisID:'y1',borderColor:K,borderDash:[6,5],borderWidth:2,pointRadius:0}]},plugins:[mark()],
-    options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y'?'Fat. por pessoa: R$ '+nf(c.parsed.y,0):c.dataset.label+': '+nf(c.parsed.y,1)+'%'}}},scales:{x:xa(false),y:ax(false,{ticks:{callback:v=>v/1000+'k'}}),y1:{position:'right',min:0,grid:{display:false},border:{color:K,width:2},ticks:{color:K,font:{weight:700},callback:v=>v+'%'}}}}});
+    options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y'?'Fat. por pessoa: R$ '+nf(c.parsed.y,0):c.dataset.label+': '+nf(c.parsed.y,1)+'%'}}},scales:{x:xa(false),y:ax(false,{ticks:{callback:v=>v/1000+'k'}}),y1:{position:'right',min:0,grid:{display:false},border:{color:K,width:1},ticks:{color:K,font:{weight:600},callback:v=>v+'%'}}}}});
   mk('cCli',{data:{labels:M.slice(A),datasets:[
-    {type:'bar',label:'Entradas',data:ent.slice(A),backgroundColor:K,borderColor:K,borderWidth:2},
-    {type:'bar',label:'Churn',data:sai.slice(A).map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:2},
-    {type:'line',label:'Clientes na base',data:base.slice(A),borderColor:K,backgroundColor:W,borderWidth:4,pointRadius:6,pointBorderWidth:3,pointBorderColor:K,pointStyle:'rect',tension:0}]},
+    {type:'bar',label:'Entradas',data:ent.slice(A),backgroundColor:K,borderColor:K,borderWidth:0},
+    {type:'bar',label:'Churn',data:sai.slice(A).map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:0},
+    {type:'line',label:'Clientes na base',data:base.slice(A),borderColor:K,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:K,pointStyle:'circle',tension:0}]},
     options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`,footer:i=>{const m=i[0].dataIndex+A;return 'Taxa de churn do mês: '+pct(sai[m]/base[m-1],1)}}}},scales:{x:xa(false),y:ax(false,{min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
   const nl=M.slice(A);
   mk('cNps',{data:{labels:nl,datasets:[
-    {type:'bar',label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:K,borderColor:K,borderWidth:2},
-    {type:'line',label:'Taxa de resposta',data:RESP.slice(A),borderColor:R,backgroundColor:W,borderWidth:4,pointRadius:5,pointBorderWidth:3,pointBorderColor:R,pointStyle:'rect',tension:0}]},
+    {type:'bar',label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:K,borderColor:K,borderWidth:0},
+    {type:'line',label:'Taxa de resposta',data:RESP.slice(A),borderColor:R,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:R,pointStyle:'circle',tension:0}]},
     options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>c.dataset.label+': '+nf(c.parsed.y,1)+(c.dataset.type==='line'?'%':'')}}},scales:{x:xa(false),y:ax(false,{min:0,max:100})}}});
   const CR=['Atendimento','Campanhas','Copy','Design','Prazos','Resultados'];
   const avg=m=>CR.map((_,i)=>{const v=RAW.nps.filter(x=>x.m===m&&x.cr[i]!=null).map(x=>x.cr[i]);return v.reduce((a,b)=>a+b,0)/v.length});
   mk('cCrit',{type:'bar',data:{labels:CR,datasets:[
-    {label:'Ago',data:avg(7),backgroundColor:K,borderColor:W,borderWidth:2},
-    {label:'Set',data:avg(8),backgroundColor:R,borderColor:R,borderWidth:2}]},
-    options:{plugins:{legend:leg(true),tooltip:{callbacks:{label:c=>c.dataset.label+': '+nf(c.parsed.y,2)}}},scales:{x:xa(true),y:ax(true,{min:3,max:5})}}});
+    {label:'Ago',data:avg(7),backgroundColor:K,borderColor:K,borderWidth:0},
+    {label:'Set',data:avg(8),backgroundColor:R,borderColor:R,borderWidth:0}]},
+    options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>c.dataset.label+': '+nf(c.parsed.y,2)}}},scales:{x:xa(false),y:ax(false,{min:3,max:5})}}});
 }
 document.querySelectorAll('#segFat button').forEach(b=>b.onclick=()=>{mode=b.dataset.v;document.querySelectorAll('#segFat button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()});
 

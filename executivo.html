@@ -110,6 +110,43 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
   section.blk{margin-top:64px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* versão leve do executivo: mesma identidade, menos peso */
+nav{padding-block:10px}
+.hero{margin-top:32px;gap:16px}
+.h-main{padding:32px 32px 40px;box-shadow:6px 6px 0 var(--r)}
+.h-main h1{font-size:clamp(16px,1.8vw,20px);margin-top:16px}
+.h-main .big{font-size:clamp(56px,7.5vw,104px);margin-top:8px}
+.chip{font-size:clamp(16px,1.8vw,22px);padding:6px 12px}
+.h-side{margin-top:96px;border-width:1px;box-shadow:4px 4px 0 var(--k);padding:24px}
+.h-side .n{font-size:clamp(56px,6vw,88px)}
+.kp{margin-top:48px;gap:16px}
+.kb:nth-child(n){transform:none}
+.kb,.kb.inv{border-width:1px;box-shadow:3px 3px 0 var(--k);padding:16px;gap:4px;background:var(--w);color:var(--k)}
+.kb .n{font-size:clamp(32px,3.2vw,48px);font-weight:800;letter-spacing:-.02em}
+.kb .tag{font-size:11px;font-weight:700;letter-spacing:.1em}
+.kb .s{font-size:12.5px;color:#444}
+section.blk{margin-top:64px}
+h2.sec{font-size:clamp(24px,3vw,40px)}
+.sh{margin-bottom:16px}
+.cg{gap:24px;align-items:stretch}
+.card,.card.inv{border-width:1px;box-shadow:3px 3px 0 var(--k);padding:20px;gap:12px;background:var(--w);color:var(--k)}
+.card h3{font-size:15px;letter-spacing:0}
+.card p{font-size:12.5px;color:#444}
+.chart{height:280px}
+.lg{font-size:11px}.lg i{border-width:1px}
+.tw{border-width:1px;box-shadow:3px 3px 0 var(--k)}
+thead th{background:var(--w);color:var(--k);border-bottom:2px solid var(--k);font-size:11px}
+th,td{border-bottom:1px solid #E3E3E3;padding:12px 16px}
+tbody td{font-weight:500;font-size:14px}
+tbody td:first-child{font-weight:700;font-size:12px;letter-spacing:.04em}
+td.d{font-size:15px;font-weight:800}
+.btn{box-shadow:3px 3px 0 var(--k);border-width:1px;padding:10px 14px}
+.seg{border-width:1px;box-shadow:3px 3px 0 var(--k)}
+.seg button+button{border-left-width:1px}
+footer{margin-top:48px}
+@media(max-width:980px){.h-side{margin-top:0;box-shadow:4px 4px 0 var(--k)}.h-main{box-shadow:6px 6px 0 var(--r)}}
+@media(max-width:520px){th,td{padding:12px 8px}}
 </style>
 
 <nav>
@@ -157,7 +194,7 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
       <div class="lg"><span><i style="background:var(--k)"></i>MRR</span><span><i style="background:var(--r);border-color:var(--r)"></i>Variável</span><span class="mk">Abril · Ivan assume</span><span class="lg" style="font-weight:500">Comparações financeiras: base março</span></div>
       <div class="chart"><canvas id="cFat" role="img" aria-label="Faturamento mensal em MRR e variável"></canvas></div>
     </div>
-    <div class="card inv c5 off">
+    <div class="card c5">
       <h3>Margem em R$</h3>
       <p>Depois de pessoas, royalties, impostos e overheads. Barra vermelha: margem positiva.</p>
       <div class="chart"><canvas id="cMar" role="img" aria-label="Margem em reais por mês"></canvas></div>
@@ -173,7 +210,7 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
       <p>De abril em diante. Linha: clientes na base no fim do mês. Barras: entradas em preto e churn em vermelho. Finalizados não contam como churn.</p>
       <div class="chart"><canvas id="cCli" role="img" aria-label="Clientes na base, entradas e churn por mês"></canvas></div>
     </div>
-    <div class="card c5 off">
+    <div class="card c5">
       <h3>NPS do squad</h3>
       <p>NPS das respostas de cada mês, de abril a setembro. Zero a 100.</p>
       <div class="chart"><canvas id="cNps" role="img" aria-label="NPS por mês"></canvas></div>
@@ -238,13 +275,13 @@ const kp=[
  ['NPS · set',ic.n,nf(npsM[L].v,0),'',`${npsM[L].n} respostas · 1 detrator`,1],
  ['% folha',ic.f,nf(folha[L]*100,1),'%',`Março: ${pct(folha[B],1)} · meta 30%`,0],
  ['Churn desde abril',ic.c,churnTot,'',`${entTot} entradas no período`,1]];
-document.getElementById('kp').innerHTML=kp.map(([t,i,n,u,s,inv])=>`<div class="kb${inv?' inv':''}"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}${u?'<em>'+u+'</em>':''}</div><div class="s">${s}</div></div>`).join('');
+document.getElementById('kp').innerHTML=kp.map(([t,i,n,u,s,inv])=>`<div class="kb"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}${u?'<em>'+u+'</em>':''}</div><div class="s">${s}</div></div>`).join('');
 
 // gráficos
 let mode='total',charts=[];
 const Q=(ch,m)=>(ch.scales.x.getPixelForValue(2)+ch.scales.x.getPixelForValue(3))/2;
-const mark=(onDark)=>({id:'m',afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=Q(ch);c.save();c.strokeStyle=R;c.lineWidth=3;c.setLineDash([6,5]);c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();c.setLineDash([]);c.fillStyle=R;c.font="800 11px Archivo,Arial,sans-serif";c.fillText('ABRIL',px+8,a.top+12);c.restore()}});
-function ax(dark,o={}){const ink=dark?W:K;return {grid:{color:dark?'#333':'#D9D9D9'},border:{color:ink,width:2},ticks:{color:ink,font:{weight:700},...(o.ticks||{})},...o}}
+const mark=(onDark)=>({id:'m',afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=Q(ch);c.save();c.fillStyle='rgba(0,0,0,.05)';c.fillRect(a.left,a.top,px-a.left,a.bottom-a.top);c.strokeStyle=R;c.lineWidth=2;c.setLineDash([6,5]);c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();c.setLineDash([]);c.fillStyle=R;c.font="800 11px Archivo,Arial,sans-serif";c.fillText('ABRIL',px+8,a.top+12);c.restore()}});
+function ax(dark,o={}){const ink=dark?W:K;return {grid:{color:'#E6E6E6'},border:{color:ink,width:1},ticks:{color:ink,font:{weight:600},...(o.ticks||{})},...o}}
 function mk(id,cfg,dark){cfg.options={responsive:true,maintainAspectRatio:false,animation:false,...cfg.options};
   cfg.options.plugins={legend:{display:false},tooltip:{backgroundColor:K,titleColor:W,bodyColor:W,borderColor:R,borderWidth:2,cornerRadius:0,padding:12,...(cfg.options.plugins?.tooltip||{})}};
   charts.push(new Chart(document.getElementById(id),cfg))}
@@ -253,26 +290,26 @@ function draw(){
   Chart.defaults.font.family="Archivo,Arial,sans-serif";
   const pre=i=>i<A;
   const bar=(label,data,col,stack)=>({label,data,stack,
-    backgroundColor:data.map((_,i)=>pre(i)?W:col),borderColor:col,borderWidth:2,borderSkipped:false});
+    backgroundColor:col,borderColor:col,borderWidth:0,borderSkipped:false});
   const ds=[];
   if(mode!=='var')ds.push(bar('MRR',D.mrr,K,'a'));
   if(mode!=='mrr')ds.push(bar('Variável',D.vr,R,'a'));
   document.getElementById('tFat').textContent=mode==='mrr'?'MRR':mode==='var'?'Faturamento variável':'Faturamento total';
-  const bx=ax(false),xx={grid:{display:false},border:{color:K,width:2},ticks:{color:K,font:{weight:800}}};
+  const bx=ax(false),xx={grid:{display:false},border:{color:K,width:1},ticks:{color:K,font:{weight:600}}};
   const money=c=>`${c.dataset.label}: R$ ${nf(c.parsed.y,0)}`;
   mk('cFat',{type:'bar',data:{labels:M,datasets:ds},plugins:[mark()],options:{plugins:{tooltip:{callbacks:{label:money,footer:i=>mode==='total'?'Total: R$ '+nf(i.reduce((a,b)=>a+b.parsed.y,0),0):''}}},scales:{x:{...xx,stacked:true},y:ax(false,{stacked:true,ticks:{callback:v=>v/1000+'k'}})}}});
   // margem (fundo preto)
-  mk('cMar',{type:'bar',data:{labels:M,datasets:[{label:'Margem',data:D.mar,backgroundColor:D.mar.map(v=>v>=0?R:K),borderColor:D.mar.map(v=>v>=0?R:W),borderWidth:2,borderSkipped:false}]},plugins:[mark()],
-    options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:{grid:{display:false},border:{color:W,width:2},ticks:{color:W,font:{weight:800}}},y:ax(true,{ticks:{callback:v=>v/1000+'k'}})}}},true);
+  mk('cMar',{type:'bar',data:{labels:M,datasets:[{label:'Margem',data:D.mar,backgroundColor:D.mar.map(v=>v>=0?R:K),borderColor:D.mar.map(v=>v>=0?R:K),borderWidth:0,borderSkipped:false}]},plugins:[mark()],
+    options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:xx,y:ax(false,{ticks:{callback:v=>v/1000+'k'}})}}});
   // clientes + churn
   mk('cCli',{data:{labels:M.slice(A),datasets:[
-    {type:'bar',label:'Entradas',data:ent.slice(A),backgroundColor:K,borderColor:K,borderWidth:2},
-    {type:'bar',label:'Churn',data:sai.slice(A).map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:2},
-    {type:'line',label:'Clientes na base',data:base.slice(A),borderColor:K,backgroundColor:W,borderWidth:4,pointRadius:6,pointBorderWidth:3,pointBorderColor:K,pointStyle:'rect',tension:0}]},
+    {type:'bar',label:'Entradas',data:ent.slice(A),backgroundColor:K,borderColor:K,borderWidth:0},
+    {type:'bar',label:'Churn',data:sai.slice(A).map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:0},
+    {type:'line',label:'Clientes na base',data:base.slice(A),borderColor:K,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:K,pointStyle:'circle',tension:0}]},
     options:{plugins:{legend:{display:true,labels:{color:K,boxWidth:12,boxHeight:12,font:{weight:800}}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`}}},scales:{x:xx,y:ax(false,{min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
   // nps
   const nl=M.slice(A);
-  mk('cNps',{type:'bar',data:{labels:nl,datasets:[{label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:nl.map((_,i)=>i===nl.length-1?R:K),borderColor:K,borderWidth:2}]},
+  mk('cNps',{type:'bar',data:{labels:nl,datasets:[{label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:nl.map((_,i)=>i===nl.length-1?R:K),borderColor:K,borderWidth:0}]},
     options:{plugins:{tooltip:{callbacks:{label:c=>`NPS: ${nf(c.parsed.y,1)} (${npsM[c.dataIndex+A].n} respostas)`}}},scales:{x:xx,y:ax(false,{min:0,max:100})}}});
 }
 document.querySelectorAll('#segFat button').forEach(b=>b.onclick=()=>{mode=b.dataset.v;document.querySelectorAll('#segFat button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()});

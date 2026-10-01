@@ -1,0 +1,299 @@
+<title>Falcon Executivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&display=swap">
+<style>
+/* Layout: cartaz editorial. Blocos pretos e brancos com sombra sólida, hero assimétrico com bloco de margem sobreposto, grade modular de 12 colunas. Só preto, branco e vermelho. */
+:root{--k:#000000;--w:#ffffff;--r:#E10600;--f:'Archivo','Arial Black','Helvetica Neue',Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--w);color:var(--k);font-family:var(--f);font-size:14px;line-height:1.45;padding-inline:clamp(16px,3vw,48px);padding-block:0 64px;font-variant-numeric:tabular-nums}
+.wrap{max-width:1360px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--r);outline-offset:2px}
+
+/* navegação */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--k);color:var(--w);margin-inline:calc(-1*clamp(16px,3vw,48px));padding:12px clamp(16px,3vw,48px);display:flex;flex-wrap:wrap;gap:8px 32px;align-items:center;justify-content:space-between}
+.brand{font-weight:900;font-size:20px;letter-spacing:.14em;text-transform:uppercase}
+.brand b{color:var(--r)}
+.links{display:flex;gap:4px;flex-wrap:wrap}
+.links a{font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:8px 12px;border-bottom:3px solid transparent}
+.links a[aria-current="true"]{background:var(--r);border-bottom-color:var(--w)}
+.links a:hover{border-bottom-color:var(--r)}
+
+/* tipografia */
+.tag{font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.mega{font-weight:900;text-transform:uppercase;line-height:.88;letter-spacing:-.03em}
+h2.sec{font-weight:900;text-transform:uppercase;font-size:clamp(32px,5vw,64px);line-height:.9;letter-spacing:-.03em;margin:0}
+h2.sec span{color:var(--r)}
+
+/* botões */
+.btn{font:800 12px var(--f);letter-spacing:.14em;text-transform:uppercase;padding:12px 16px;border:2px solid var(--k);background:var(--w);color:var(--k);cursor:pointer;box-shadow:4px 4px 0 var(--k);text-decoration:none;display:inline-block}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--k)}
+.btn.pri{background:var(--r);color:var(--w)}
+.seg{display:inline-flex;border:2px solid var(--k);box-shadow:4px 4px 0 var(--k);background:var(--w)}
+.seg button{font:800 12px var(--f);letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border:0;background:var(--w);color:var(--k);cursor:pointer}
+.seg button+button{border-left:2px solid var(--k)}
+.seg button[aria-pressed="true"]{background:var(--r);color:var(--w)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;margin-top:48px;align-items:start}
+.h-main{grid-column:1/9;grid-row:1;background:var(--k);color:var(--w);padding:48px 48px 64px;box-shadow:12px 12px 0 var(--r);position:relative;min-width:0}
+.h-main .kick{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.h-main h1{margin:24px 0 0;font-size:clamp(22px,2.6vw,32px);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:1}
+.h-main .big{font-size:clamp(64px,8.4vw,124px);margin-top:16px;white-space:nowrap}
+.h-main .big small{font-size:.38em;letter-spacing:0;margin-left:8px}
+.chips{display:flex;gap:16px;flex-wrap:wrap;margin-top:32px;align-items:center}
+.chip{background:var(--r);color:var(--w);font-weight:900;font-size:clamp(20px,2.6vw,32px);padding:8px 16px;letter-spacing:-.01em}
+.chips .t{font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.h-side{grid-column:8/13;grid-row:1;margin-top:128px;margin-left:-24px;background:var(--w);border:2px solid var(--k);box-shadow:12px 12px 0 var(--k);padding:32px;position:relative;z-index:2;min-width:0}
+.h-side .n{font-size:clamp(64px,8vw,120px);color:var(--r);margin-top:8px}
+.h-side p{margin:16px 0 0;font-weight:500}
+.h-side .bar{height:16px;border:2px solid var(--k);margin-top:16px;position:relative}
+.h-side .bar i{position:absolute;inset:0 auto 0 0;background:var(--k)}
+
+/* kpis */
+.kp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:64px}
+.kb{border:2px solid var(--k);background:var(--w);box-shadow:6px 6px 0 var(--k);padding:24px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.kb:nth-child(even){transform:translateY(24px)}
+.kb.inv{background:var(--k);color:var(--w);box-shadow:6px 6px 0 var(--r)}
+.kb svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:square}
+.kb .n{font-size:clamp(44px,5vw,72px)}
+.kb .n em{font-style:normal;color:var(--r)}
+.kb .s{font-weight:500;font-size:13px}
+.kb .top{display:flex;justify-content:space-between;align-items:center}
+
+/* seções */
+section.blk{margin-top:96px;scroll-margin-top:80px}
+.sh{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:flex-end;margin-bottom:32px}
+.cg{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:start}
+.c7{grid-column:span 7}.c5{grid-column:span 5}.c12{grid-column:1/-1}
+.card{border:2px solid var(--k);background:var(--w);box-shadow:8px 8px 0 var(--k);padding:24px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card.inv{background:var(--k);color:var(--w);box-shadow:8px 8px 0 var(--r)}
+.card.off{margin-top:32px}
+.card h3{margin:0;font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:-.01em;line-height:1}
+.card p{margin:0;font-size:13px;font-weight:500}
+.chart{position:relative;height:300px}
+.lg{display:flex;gap:16px;flex-wrap:wrap;font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.lg i{display:inline-block;width:12px;height:12px;border:2px solid var(--k);margin-right:8px;vertical-align:-1px}
+.card.inv .lg i{border-color:var(--w)}
+.mk{display:flex;gap:8px;align-items:center;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.mk:before{content:"";width:24px;border-top:3px dashed var(--r)}
+
+/* placar */
+.tw{overflow-x:auto;border:2px solid var(--k);box-shadow:8px 8px 0 var(--k)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:16px;text-align:right;white-space:nowrap;border-bottom:2px solid var(--k)}
+th:first-child,td:first-child{text-align:left}
+thead th{background:var(--k);color:var(--w);font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+tbody td{font-weight:700;font-size:16px}
+tbody td:first-child{font-weight:900;text-transform:uppercase;font-size:13px;letter-spacing:.08em}
+tbody tr:last-child td{border-bottom:0}
+td.d{color:var(--r);font-weight:900;font-size:18px}
+footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(--k);padding-top:16px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media(max-width:980px){
+  .h-main{grid-column:1/-1;grid-row:auto;padding:32px 24px 48px;box-shadow:8px 8px 0 var(--r)}
+  .h-side{grid-column:1/-1;grid-row:auto;margin:0;box-shadow:8px 8px 0 var(--k)}
+  .kp{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .kb:nth-child(even){transform:none}
+  .c7,.c5{grid-column:1/-1}
+  .card.off{margin-top:0}
+}
+@media(max-width:520px){
+  body{font-size:13px}
+  .hero{gap:24px;margin-top:32px}
+  .h-main .big{white-space:normal}
+  .kp{grid-template-columns:minmax(0,1fr)}
+  .links a{padding:8px}
+  .chart{height:260px}
+  th,td{padding:12px 8px}
+  tbody td{font-size:14px}
+  tbody td:first-child{font-size:11px;white-space:normal}
+  td.d{font-size:15px}
+  section.blk{margin-top:64px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<nav>
+  <div class="brand">Falcon<b>.</b> 2026</div>
+  <div class="links" id="links">
+    <a href="#resumo" aria-current="true">Resumo</a>
+    <a href="#financeiro">Financeiro</a>
+    <a href="#clientes">Clientes</a>
+    <a href="#placar">Abr → Set</a>
+  </div>
+</nav>
+
+<div class="wrap">
+<header class="hero" id="resumo">
+  <div class="h-main">
+    <div class="kick"><span class="tag">Squad Falcon · Time Ivan</span><span class="tag" style="color:var(--r)">Setembro 2026</span></div>
+    <h1>Faturamento mensal</h1>
+    <div class="mega big" id="heroNum"></div>
+    <div class="chips"><span class="chip" id="heroDelta"></span><span class="t" id="heroSub"></span></div>
+  </div>
+  <aside class="h-side">
+    <span class="tag">Margem do squad · set</span>
+    <div class="mega n" id="marPct"></div>
+    <p id="marTxt"></p>
+    <div class="bar" aria-hidden="true"><i id="marBar"></i></div>
+  </aside>
+</header>
+
+<section class="kp" id="kp"></section>
+
+<section class="blk" id="financeiro">
+  <div class="sh">
+    <h2 class="sec">Receita e <span>margem</span></h2>
+    <a class="btn" href="https://claude.ai/artifact/BL5UtFxZgv8WBizt8GE7rE" target="_blank" rel="noopener">Ver dashboard detalhado</a>
+  </div>
+  <div class="cg">
+    <div class="card c7">
+      <div class="sh" style="margin:0;align-items:center">
+        <h3 id="tFat">Faturamento total</h3>
+        <div class="seg" id="segFat" role="group" aria-label="Filtro de faturamento">
+          <button data-v="total" aria-pressed="true">Total</button>
+          <button data-v="mrr" aria-pressed="false">MRR</button>
+          <button data-v="var" aria-pressed="false">Variável</button>
+        </div>
+      </div>
+      <div class="lg"><span><i style="background:var(--k)"></i>MRR</span><span><i style="background:var(--r);border-color:var(--r)"></i>Variável</span><span class="mk">Abril · Ivan assume</span></div>
+      <div class="chart"><canvas id="cFat" role="img" aria-label="Faturamento mensal em MRR e variável"></canvas></div>
+    </div>
+    <div class="card inv c5 off">
+      <h3>Margem em R$</h3>
+      <p>Depois de pessoas, royalties, impostos e overheads. Barra vermelha: margem positiva.</p>
+      <div class="chart"><canvas id="cMar" role="img" aria-label="Margem em reais por mês"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="clientes">
+  <div class="sh"><h2 class="sec">Carteira e <span>satisfação</span></h2></div>
+  <div class="cg">
+    <div class="card c7">
+      <h3>Clientes na base e churn</h3>
+      <p>Linha: clientes na base no fim do mês. Barras: entradas em preto e churn em vermelho. Finalizados não contam como churn.</p>
+      <div class="chart"><canvas id="cCli" role="img" aria-label="Clientes na base, entradas e churn por mês"></canvas></div>
+    </div>
+    <div class="card c5 off">
+      <h3>NPS do squad</h3>
+      <p>NPS das respostas de cada mês, de abril a setembro. Zero a 100.</p>
+      <div class="chart"><canvas id="cNps" role="img" aria-label="NPS por mês"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="placar">
+  <div class="sh"><h2 class="sec">Abril <span>→</span> setembro</h2><span class="tag">Quando o Ivan assume, contra hoje</span></div>
+  <div class="tw"><table id="board"></table></div>
+</section>
+
+<footer><span>Fontes: DRE FALCON, Base de Clientes e NPS Q2. Setembro conforme lançado no DRE.</span><span>V4 Carvalho &amp; Co.</span></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const RAW={"nps": [{"c": "A.dias", "m": 7, "n": 9.0, "csat": 5.0, "cr": [5.0, 5.0, 4.0, 5.0, 5.0, 5.0]}, {"c": "Alice Salazar", "m": 7, "n": 10.0, "csat": 4.0, "cr": [5.0, 3.0, 4.0, 5.0, 3.0, 5.0]}, {"c": "Alice Salazar", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 4.0, 4.0, 5.0, 5.0, 5.0]}, {"c": "Argiplam", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Argiplam", "m": 8, "n": 9.0, "csat": 4.0, "cr": [4.0, 4.0, 4.0, 4.0, 5.0, 4.0]}, {"c": "Clube da Casa Nova Era", "m": 5, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Clube da Casa Nova Era", "m": 6, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Clube da Casa Nova Era", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Clube da Casa Nova Era", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Drogalis", "m": 3, "n": 10.0, "csat": 4.0, "cr": [5.0, 5.0, 5.0, 5.0, 4.0, 4.0]}, {"c": "Drogalis", "m": 4, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Elevance Automotive", "m": 8, "n": 10.0, "csat": 5.0, "cr": [4.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "ELM Pinturas", "m": 6, "n": 10.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "Empório Mega 100", "m": 8, "n": 10.0, "csat": 5.0, "cr": [4.0, 5.0, 4.0, 5.0, 5.0, 5.0]}, {"c": "GSC Segurança", "m": 3, "n": 9.0, "csat": 4.0, "cr": [5.0, 3.0, 4.0, 4.0, 5.0, 3.0]}, {"c": "GSC Segurança", "m": 4, "n": 5.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "GSC Segurança", "m": 5, "n": 9.0, "csat": 4.0, "cr": [5.0, 4.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "GSC Segurança", "m": 6, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "MasterMed", "m": 3, "n": 9.0, "csat": 4.0, "cr": [4.0, 4.0, null, 4.0, 4.0, 4.0]}, {"c": "MasterMed", "m": 6, "n": 9.0, "csat": 3.0, "cr": [4.0, 4.0, 4.0, 4.0, 3.0, 4.0]}, {"c": "Miyamura Engenharia", "m": 5, "n": 9.0, "csat": 4.0, "cr": [5.0, 4.0, 5.0, 5.0, 4.0, 4.0]}, {"c": "Miyamura Engenharia", "m": 6, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Miyamura Engenharia", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "Miyamura Engenharia", "m": 8, "n": 10.0, "csat": 4.0, "cr": [5.0, 5.0, 5.0, 5.0, 4.0, 5.0]}, {"c": "Official Time (EMW Joias)", "m": 3, "n": 10.0, "csat": 4.0, "cr": [5.0, 4.0, 4.0, 4.0, 5.0, 4.0]}, {"c": "Official Time (EMW Joias)", "m": 5, "n": 10.0, "csat": 4.0, "cr": [5.0, 4.0, 4.0, 4.0, 4.0, 4.0]}, {"c": "Official Time (EMW Joias)", "m": 7, "n": 8.0, "csat": 3.0, "cr": [4.0, 4.0, 4.0, 4.0, 3.0, 3.0]}, {"c": "Official Time (EMW Joias)", "m": 8, "n": 9.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "PetTreats", "m": 3, "n": 10.0, "csat": null, "cr": [5.0, null, null, 5.0, 5.0, 5.0]}, {"c": "PetTreats", "m": 4, "n": 10.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "PetTreats", "m": 5, "n": 10.0, "csat": null, "cr": [null, null, null, null, null, null]}, {"c": "Point Thermic", "m": 7, "n": 9.0, "csat": 4.0, "cr": [4.0, 4.0, 4.0, 5.0, 4.0, 4.0]}, {"c": "TB Rio Elevadores", "m": 6, "n": 9.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "TB Rio Elevadores", "m": 7, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}, {"c": "TB Rio Elevadores", "m": 8, "n": 9.0, "csat": 5.0, "cr": [4.0, 4.0, 5.0, 5.0, 5.0, null]}, {"c": "Touch of Synergy (Praex)", "m": 8, "n": 5.0, "csat": 3.0, "cr": [5.0, 2.0, 4.0, 4.0, 3.0, 1.0]}, {"c": "TradePro", "m": 8, "n": 10.0, "csat": 5.0, "cr": [null, null, null, null, null, null]}, {"c": "Viagem do Sonho", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 4.0, null]}, {"c": "VS Med", "m": 8, "n": 10.0, "csat": 5.0, "cr": [5.0, 5.0, 5.0, 5.0, 5.0, 5.0]}], "cl": [{"c": "Alice Salazar", "s": "Ativo", "i": "16/01/2026", "x": "", "lt": "8,6"}, {"c": "ADias Gestão de Risco (PHD)", "s": "Pausado", "i": "24/07/2026", "x": "", "lt": "2,3"}, {"c": "Argiplam", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}, {"c": "Clube da Casa (Nova Era)", "s": "Churn", "i": "06/04/2026", "x": "10/09/2026", "lt": "5,9"}, {"c": "Drogalis", "s": "Churn", "i": "21/08/2024", "x": "02/10/2026", "lt": "25,7"}, {"c": "Éffera", "s": "Churn", "i": "16/03/2026", "x": "31/05/2026", "lt": "2,5"}, {"c": "EJOT", "s": "Churn", "i": "15/09/2025", "x": "31/07/2026", "lt": "12,7"}, {"c": "Elevance Automotive", "s": "Ativo", "i": "28/01/2026", "x": "", "lt": "8,2"}, {"c": "ELM Pinturas", "s": "Finalizado", "i": "25/05/2026", "x": "09/07/2026", "lt": "4,3"}, {"c": "Empório Mega 100", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}, {"c": "Empório Pirana", "s": "Churn", "i": "14/08/2024", "x": "30/06/2026", "lt": "25,9"}, {"c": "Falcon Têxtil", "s": "Ativo", "i": "17/08/2026", "x": "", "lt": "1,5"}, {"c": "FF Driver", "s": "Ativo", "i": "03/08/2026", "x": "", "lt": "2,0"}, {"c": "GSC Segurança", "s": "Ativo", "i": "20/01/2026", "x": "", "lt": "8,5"}, {"c": "Krioplast", "s": "Ativo", "i": "28/08/2026", "x": "", "lt": "1,1"}, {"c": "Mana Refeições", "s": "Ativo", "i": "03/09/2026", "x": "", "lt": "0,9"}, {"c": "MasterMed", "s": "Churn", "i": "05/01/2026", "x": "31/07/2026", "lt": "6,9"}, {"c": "Miyamura Engenharia", "s": "Ativo", "i": "01/09/2025", "x": "", "lt": "13,2"}, {"c": "Nagaura", "s": "Ativo", "i": "05/05/2025", "x": "", "lt": "17,1"}, {"c": "Official Time", "s": "Ativo", "i": "03/11/2025", "x": "", "lt": "11,1"}, {"c": "Pakman Tecnologia", "s": "Ativo", "i": "04/09/2026", "x": "", "lt": "0,9"}, {"c": "PetTreats", "s": "Ativo", "i": "28/09/2023", "x": "", "lt": "36,6"}, {"c": "Point Thermic", "s": "Ativo", "i": "08/06/2023", "x": "", "lt": "40,4"}, {"c": "Premium Gourmet", "s": "Ativo", "i": "25/08/2026", "x": "", "lt": "1,2"}, {"c": "RLAV", "s": "Ativo", "i": "03/09/2026", "x": "", "lt": "0,9"}, {"c": "Sacrarium Hotel", "s": "Ativo", "i": "02/09/2026", "x": "", "lt": "1,0"}, {"c": "TB Rio Elevadores", "s": "Ativo", "i": "22/10/2025", "x": "", "lt": "11,5"}, {"c": "Touch of Synergy (Praex)", "s": "Ativo", "i": "22/12/2025", "x": "", "lt": "9,4"}, {"c": "Tradepro", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}, {"c": "Triattori", "s": "Ativo", "i": "04/09/2026", "x": "", "lt": "0,9"}, {"c": "Trufer", "s": "Ativo", "i": "24/11/2025", "x": "", "lt": "10,4"}, {"c": "Viagem do Sonho", "s": "Ativo", "i": "20/07/2026", "x": "", "lt": "2,4"}, {"c": "VS Med", "s": "Ativo", "i": "27/07/2026", "x": "", "lt": "2,2"}]};
+const M=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'];
+const D={
+ mrr:[45481.56,45481.56,39673.05,62438.96,59060.39,91770.58,73766.41,77637.81,123605.28],
+ vr:[2244.53,2189.84,2012,16012,15700,23178.17,26789.69,50627.32,59004.37],
+ pess:[27691.66,19525,27175,29458.32,31985.81,29775,29423,33698.31,45097.15],
+ mar:[-65722.66,-20520.29,-42022.48,-22155.93,-21093.51,9581.86,2449.84,11185.28,39913.3],
+ cli:[8,7,8,10,10,17,20,19,20], inv:[6,5,5,7,6,6,7,7,7]
+};
+D.fat=D.mrr.map((v,i)=>v+D.vr[i]);
+const L=8,A=3,K='#000000',W='#FFFFFF',R='#E10600';
+const pd=s=>{const[a,b,c]=s.split('/').map(Number);return new Date(c,b-1,a)};
+const cl=RAW.cl.map(c=>({...c,start:pd(c.i),end:c.x?pd(c.x):null}));
+const eom=m=>new Date(2026,m+1,0,23,59,59), inM=(d,m)=>d&&d.getFullYear()==2026&&d.getMonth()==m;
+const base=M.map((_,m)=>cl.filter(c=>c.start<=eom(m)&&!(c.end&&c.end<=eom(m))).length);
+const ent=M.map((_,m)=>cl.filter(c=>inM(c.start,m)).length);
+const sai=M.map((_,m)=>cl.filter(c=>inM(c.end,m)&&c.s!=='Finalizado').length);
+const folha=D.pess.map((v,i)=>v/D.fat[i]), marP=D.mar.map((v,i)=>v/D.fat[i]);
+const ticket=D.fat.map((v,i)=>v/D.cli[i]), fcab=D.fat.map((v,i)=>v/D.inv[i]);
+const npsM=M.map((_,m)=>{const r=RAW.nps.filter(x=>x.m===m&&x.n!=null);if(!r.length)return null;
+  return {v:(r.filter(x=>x.n>=9).length-r.filter(x=>x.n<=6).length)/r.length*100,n:r.length}});
+
+const nf=(v,d=0)=>v.toLocaleString('pt-BR',{maximumFractionDigits:d,minimumFractionDigits:d});
+const mil=v=>(v<0?'-':'')+'R$ '+nf(Math.abs(v)/1000,1)+' mil';
+const pct=(v,d=0)=>nf(v*100,d)+'%';
+const g=(a,b)=>(a-b)/Math.abs(b);
+const sig=v=>(v>=0?'+':'-')+pct(Math.abs(v));
+
+// hero
+document.getElementById('heroNum').innerHTML='R$&nbsp;'+nf(D.fat[L]/1000,1)+'<small>MIL</small>';
+document.getElementById('heroDelta').textContent=sig(g(D.fat[L],D.fat[A]))+' vs abril';
+document.getElementById('heroSub').textContent='Abril: '+mil(D.fat[A])+' · '+nf(D.fat[L]/D.fat[A],1)+'x em 5 meses';
+document.getElementById('marPct').textContent=pct(marP[L]);
+document.getElementById('marTxt').textContent=mil(D.mar[L])+' de margem em setembro. Em abril: '+mil(D.mar[A])+' ('+pct(marP[A])+').';
+document.getElementById('marBar').style.width=Math.max(0,marP[L]*100/30*100)+'%';
+
+// kpis
+const ic={
+ u:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21v-3h14v3"/></svg>',
+ n:'<svg viewBox="0 0 24 24"><path d="M3 21V9h5v12M10 21V3h5v18M17 21v-8h4v8"/></svg>',
+ f:'<svg viewBox="0 0 24 24"><path d="M5 19L19 5M7 5h12v12"/></svg>',
+ c:'<svg viewBox="0 0 24 24"><path d="M3 12h13M11 6l6 6-6 6M21 4v16"/></svg>'};
+const churnTot=sai.slice(A).reduce((a,b)=>a+b,0), entTot=ent.slice(A).reduce((a,b)=>a+b,0);
+const kp=[
+ ['Clientes na base',ic.u,base[L],'',`+${base[L]-base[A]} desde abril · ${D.cli[L]} pagantes no DRE`,0],
+ ['NPS · set',ic.n,nf(npsM[L].v,0),'',`${npsM[L].n} respostas · 1 detrator`,1],
+ ['% folha',ic.f,nf(folha[L]*100,1),'%',`Abril: ${pct(folha[A],1)} · meta 30%`,0],
+ ['Churn desde abril',ic.c,churnTot,'',`${entTot} entradas no período`,1]];
+document.getElementById('kp').innerHTML=kp.map(([t,i,n,u,s,inv])=>`<div class="kb${inv?' inv':''}"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}${u?'<em>'+u+'</em>':''}</div><div class="s">${s}</div></div>`).join('');
+
+// gráficos
+let mode='total',charts=[];
+const Q=(ch,m)=>(ch.scales.x.getPixelForValue(2)+ch.scales.x.getPixelForValue(3))/2;
+const mark=(onDark)=>({id:'m',afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=Q(ch);c.save();c.strokeStyle=R;c.lineWidth=3;c.setLineDash([6,5]);c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();c.setLineDash([]);c.fillStyle=R;c.font="800 11px Archivo,Arial,sans-serif";c.fillText('ABRIL',px+8,a.top+12);c.restore()}});
+function ax(dark,o={}){const ink=dark?W:K;return {grid:{color:dark?'#333':'#D9D9D9'},border:{color:ink,width:2},ticks:{color:ink,font:{weight:700},...(o.ticks||{})},...o}}
+function mk(id,cfg,dark){cfg.options={responsive:true,maintainAspectRatio:false,animation:false,...cfg.options};
+  cfg.options.plugins={legend:{display:false},tooltip:{backgroundColor:K,titleColor:W,bodyColor:W,borderColor:R,borderWidth:2,cornerRadius:0,padding:12,...(cfg.options.plugins?.tooltip||{})}};
+  charts.push(new Chart(document.getElementById(id),cfg))}
+function draw(){
+  charts.forEach(c=>c.destroy());charts=[];
+  Chart.defaults.font.family="Archivo,Arial,sans-serif";
+  const pre=i=>i<A;
+  const bar=(label,data,col,stack)=>({label,data,stack,
+    backgroundColor:data.map((_,i)=>pre(i)?W:col),borderColor:col,borderWidth:2,borderSkipped:false});
+  const ds=[];
+  if(mode!=='var')ds.push(bar('MRR',D.mrr,K,'a'));
+  if(mode!=='mrr')ds.push(bar('Variável',D.vr,R,'a'));
+  document.getElementById('tFat').textContent=mode==='mrr'?'MRR':mode==='var'?'Faturamento variável':'Faturamento total';
+  const bx=ax(false),xx={grid:{display:false},border:{color:K,width:2},ticks:{color:K,font:{weight:800}}};
+  const money=c=>`${c.dataset.label}: R$ ${nf(c.parsed.y,0)}`;
+  mk('cFat',{type:'bar',data:{labels:M,datasets:ds},plugins:[mark()],options:{plugins:{tooltip:{callbacks:{label:money,footer:i=>mode==='total'?'Total: R$ '+nf(i.reduce((a,b)=>a+b.parsed.y,0),0):''}}},scales:{x:{...xx,stacked:true},y:ax(false,{stacked:true,ticks:{callback:v=>v/1000+'k'}})}}});
+  // margem (fundo preto)
+  mk('cMar',{type:'bar',data:{labels:M,datasets:[{label:'Margem',data:D.mar,backgroundColor:D.mar.map(v=>v>=0?R:K),borderColor:D.mar.map(v=>v>=0?R:W),borderWidth:2,borderSkipped:false}]},plugins:[mark()],
+    options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:{grid:{display:false},border:{color:W,width:2},ticks:{color:W,font:{weight:800}}},y:ax(true,{ticks:{callback:v=>v/1000+'k'}})}}},true);
+  // clientes + churn
+  mk('cCli',{data:{labels:M,datasets:[
+    {type:'bar',label:'Entradas',data:ent,backgroundColor:K,borderColor:K,borderWidth:2},
+    {type:'bar',label:'Churn',data:sai.map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:2},
+    {type:'line',label:'Clientes na base',data:base,borderColor:K,backgroundColor:W,borderWidth:4,pointRadius:6,pointBorderWidth:3,pointBorderColor:K,pointStyle:'rect',tension:0}]},
+    plugins:[mark()],options:{plugins:{legend:{display:true,labels:{color:K,boxWidth:12,boxHeight:12,font:{weight:800}}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`}}},scales:{x:xx,y:ax(false,{min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
+  // nps
+  const nl=M.slice(A);
+  mk('cNps',{type:'bar',data:{labels:nl,datasets:[{label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:nl.map((_,i)=>i===nl.length-1?R:K),borderColor:K,borderWidth:2}]},
+    options:{plugins:{tooltip:{callbacks:{label:c=>`NPS: ${nf(c.parsed.y,1)} (${npsM[c.dataIndex+A].n} respostas)`}}},scales:{x:xx,y:ax(false,{min:0,max:100})}}});
+}
+document.querySelectorAll('#segFat button').forEach(b=>b.onclick=()=>{mode=b.dataset.v;document.querySelectorAll('#segFat button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()});
+
+// placar
+const rows=[
+ ['Faturamento',D.fat,mil,'g'],['MRR',D.mrr,mil,'g'],['Variável',D.vr,mil,'g'],
+ ['Margem R$',D.mar,mil,'r'],['Margem %',marP,v=>pct(v,1),'pp'],
+ ['Clientes na base',base,v=>v,'n'],['Ticket médio',ticket,mil,'g'],['Faturamento por pessoa',fcab,mil,'g'],
+ ['% folha',folha,v=>pct(v,1),'pp'],['NPS',npsM.map(x=>x&&x.v),v=>nf(v,1),'n']];
+const dl=(a,s,t)=>t==='g'?sig(g(s,a)):t==='r'?(s>=a?'+':'')+mil(s-a):t==='pp'?(s>=a?'+':'')+nf((s-a)*100,1)+' p.p.':(s>=a?'+':'')+nf(s-a,0);
+document.getElementById('board').innerHTML='<thead><tr><th>Indicador</th><th>Abril</th><th>Setembro</th><th>Variação</th></tr></thead><tbody>'+
+ rows.map(([n,a,f,t])=>`<tr><td>${n}</td><td>${f(a[A])}</td><td>${f(a[L])}</td><td class="d">${dl(a[A],a[L],t)}</td></tr>`).join('')+'</tbody>';
+
+// nav ativa
+const secs=[...document.querySelectorAll('#resumo,#financeiro,#clientes,#placar')], lk=[...document.querySelectorAll('#links a')];
+const spy=()=>{let cur=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<120)cur=i});lk.forEach((a,i)=>a.setAttribute('aria-current',i===cur))};
+addEventListener('scroll',spy,{passive:true});
+draw();
+</script>

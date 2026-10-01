@@ -1,4 +1,4 @@
-<title>Dashboard Falcon 2026</title>
+<title>Falcon Executivo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&display=swap">
 <style>
@@ -111,61 +111,42 @@ footer{margin-top:64px;font-weight:500;font-size:12px;border-top:2px solid var(-
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
-/* detalhado */
-.dh{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px;align-items:end;margin-top:48px}
-.dh h1{font-size:clamp(48px,9vw,128px);margin:16px 0 0}
-.dhr{display:flex;flex-direction:column;gap:24px;align-items:flex-start;padding-bottom:8px}
-.dhr p{margin:0;font-weight:500;max-width:44ch}
-.kp.k8{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:48px}
-.kb .n em{font-style:normal;font-size:.4em;letter-spacing:0;margin-left:6px}
-.kb .s b.up{color:var(--r)}
-.kb.inv .s b.up{color:var(--w);background:var(--r);padding:0 6px}
-.kb:nth-child(4n+2),.kb:nth-child(4n+4){transform:translateY(24px)}
-.kb:nth-child(even){transform:none}
-.kb:nth-child(4n+2),.kb:nth-child(4n+4){transform:translateY(24px)}
-th.base,td.base{background:var(--r);color:var(--w)}
-td.ng{color:var(--r)} td.base.ng{color:var(--w)}
-tr.t td{font-weight:900} tr.s td:first-child{padding-left:32px}
-.tw td,.tw th{padding:12px 16px}
-tbody td{font-size:14px}
-@media(max-width:980px){.dh{grid-template-columns:minmax(0,1fr)}.kb:nth-child(n){transform:none}.kp.k8{row-gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.kp.k8{grid-template-columns:minmax(0,1fr)}.tw td,.tw th{padding:12px 8px}}
-
-/* versão leve do detalhado: mesma identidade, menos peso */
-body{font-size:14px}
-.dh{margin-top:32px}
-.dh h1{font-size:clamp(36px,5vw,64px)}
-h2.sec{font-size:clamp(24px,3vw,36px)}
-section.blk{margin-top:56px}
-.sh{margin-bottom:16px}
-.kp.k8{gap:16px;row-gap:16px;margin-top:32px}
+/* versão leve do executivo: mesma identidade, menos peso */
+nav{padding-block:10px}
+.hero{margin-top:32px;gap:16px}
+.h-main{padding:32px 32px 40px;box-shadow:6px 6px 0 var(--r)}
+.h-main h1{font-size:clamp(16px,1.8vw,20px);margin-top:16px}
+.h-main .big{font-size:clamp(56px,7.5vw,104px);margin-top:8px}
+.chip{font-size:clamp(16px,1.8vw,22px);padding:6px 12px}
+.h-side{margin-top:96px;border-width:1px;box-shadow:4px 4px 0 var(--k);padding:24px}
+.h-side .n{font-size:clamp(56px,6vw,88px)}
+.kp{margin-top:48px;gap:16px}
 .kb:nth-child(n){transform:none}
 .kb,.kb.inv{border-width:1px;box-shadow:3px 3px 0 var(--k);padding:16px;gap:4px;background:var(--w);color:var(--k)}
-.kb .n{font-size:clamp(32px,3vw,44px);font-weight:800;letter-spacing:-.02em}
-.kb .n em{font-size:.5em}
+.kb .n{font-size:clamp(32px,3.2vw,48px);font-weight:800;letter-spacing:-.02em}
 .kb .tag{font-size:11px;font-weight:700;letter-spacing:.1em}
 .kb .s{font-size:12.5px;color:#444}
-.kb .s b.up,.kb.inv .s b.up{color:var(--r);background:none;padding:0}
+section.blk{margin-top:64px}
+h2.sec{font-size:clamp(24px,3vw,40px)}
+.sh{margin-bottom:16px}
 .cg{gap:24px;align-items:stretch}
 .card,.card.inv{border-width:1px;box-shadow:3px 3px 0 var(--k);padding:20px;gap:12px;background:var(--w);color:var(--k)}
 .card h3{font-size:15px;letter-spacing:0}
 .card p{font-size:12.5px;color:#444}
 .chart{height:280px}
-.lg{font-size:11px;font-weight:700}
-.lg i{border-width:1px}
+.lg{font-size:11px}.lg i{border-width:1px}
 .tw{border-width:1px;box-shadow:3px 3px 0 var(--k)}
 thead th{background:var(--w);color:var(--k);border-bottom:2px solid var(--k);font-size:11px}
-th,td{border-bottom:1px solid #E3E3E3}
-.tw td,.tw th{padding:10px 14px}
-tbody td{font-weight:500;font-size:13px}
+th,td{border-bottom:1px solid #E3E3E3;padding:12px 16px}
+tbody td{font-weight:500;font-size:14px}
 tbody td:first-child{font-weight:700;font-size:12px;letter-spacing:.04em}
-tr.t td{font-weight:800;background:#F5F5F5}
-th.base{background:var(--w);color:var(--r);border-bottom-color:var(--r)}
-td.base{background:#FFF1F0;color:var(--k)}
-td.ng,td.base.ng{color:var(--r)}
+td.d{font-size:15px;font-weight:800}
 .btn{box-shadow:3px 3px 0 var(--k);border-width:1px;padding:10px 14px}
 .seg{border-width:1px;box-shadow:3px 3px 0 var(--k)}
 .seg button+button{border-left-width:1px}
+footer{margin-top:48px}
+@media(max-width:980px){.h-side{margin-top:0;box-shadow:4px 4px 0 var(--k)}.h-main{box-shadow:6px 6px 0 var(--r)}}
+@media(max-width:520px){th,td{padding:12px 8px}}
 </style>
 
 <nav>
@@ -174,26 +155,32 @@ td.ng,td.base.ng{color:var(--r)}
     <a href="#resumo" aria-current="true">Resumo</a>
     <a href="#financeiro">Financeiro</a>
     <a href="#clientes">Clientes</a>
-    <a href="#dre">DRE</a>
+    <a href="#placar">Mar → Set</a>
   </div>
 </nav>
 
 <div class="wrap">
-<header id="resumo" class="dh">
-  <div>
-    <span class="tag" style="color:var(--r)">Squad Falcon · Time Ivan · Jan–Set 2026</span>
-    <h1 class="mega">Dashboard<br>detalhado</h1>
+<header class="hero" id="resumo">
+  <div class="h-main">
+    <div class="kick"><span class="tag">Squad Falcon · Time Ivan</span><span class="tag" style="color:var(--r)">Setembro 2026</span></div>
+    <h1>Faturamento mensal</h1>
+    <div class="mega big" id="heroNum"></div>
+    <div class="chips"><span class="chip" id="heroDelta"></span><span class="t" id="heroSub"></span></div>
   </div>
-  <div class="dhr">
-    <p>Comparações financeiras com base em março, o time como foi recebido. A linha vermelha marca abril, quando o Ivan assume.</p>
-    <a class="btn pri" href="executivo.html">Ver visão executiva</a>
-  </div>
+  <aside class="h-side">
+    <span class="tag">Margem do squad · set</span>
+    <div class="mega n" id="marPct"></div>
+    <p id="marTxt"></p>
+  </aside>
 </header>
 
-<section class="kp k8" id="kp"></section>
+<section class="kp" id="kp"></section>
 
 <section class="blk" id="financeiro">
-  <div class="sh"><h2 class="sec">Receita e <span>margem</span></h2></div>
+  <div class="sh">
+    <h2 class="sec">Receita e <span>margem</span></h2>
+    <a class="btn" href="detalhado.html">Ver dashboard detalhado</a>
+  </div>
   <div class="cg">
     <div class="card c7">
       <div class="sh" style="margin:0;align-items:center">
@@ -204,24 +191,13 @@ td.ng,td.base.ng{color:var(--r)}
           <button data-v="var" aria-pressed="false">Variável</button>
         </div>
       </div>
-      <p>MRR é a receita recorrente (fees). Variável soma performance, estruturação e projetos pontuais.</p>
-      <div class="lg"><span><i style="background:var(--k)"></i>MRR</span><span><i style="background:var(--r);border-color:var(--r)"></i>Variável</span><span class="mk">Abril · Ivan assume</span></div>
+      <div class="lg"><span><i style="background:var(--k)"></i>MRR</span><span><i style="background:var(--r);border-color:var(--r)"></i>Variável</span><span class="mk">Abril · Ivan assume</span><span class="lg" style="font-weight:500">Comparações financeiras: base março</span></div>
       <div class="chart"><canvas id="cFat" role="img" aria-label="Faturamento mensal em MRR e variável"></canvas></div>
     </div>
     <div class="card c5">
       <h3>Margem em R$</h3>
       <p>Depois de pessoas, royalties, impostos e overheads. Barra vermelha: margem positiva.</p>
       <div class="chart"><canvas id="cMar" role="img" aria-label="Margem em reais por mês"></canvas></div>
-    </div>
-    <div class="card c5">
-      <h3>Margem em %</h3>
-      <p>Margem sobre o faturamento total.</p>
-      <div class="chart"><canvas id="cMarP" role="img" aria-label="Margem percentual por mês"></canvas></div>
-    </div>
-    <div class="card c7">
-      <h3>Produtividade do time</h3>
-      <p>Barras: faturamento por pessoa do time. Linha vermelha: % de folha sobre o faturamento. Tracejado: meta de 30%.</p>
-      <div class="chart"><canvas id="cProd" role="img" aria-label="Faturamento por pessoa e percentual de folha"></canvas></div>
     </div>
   </div>
 </section>
@@ -236,23 +212,18 @@ td.ng,td.base.ng{color:var(--r)}
     </div>
     <div class="card c5">
       <h3>NPS do squad</h3>
-      <p>Barras: NPS do mês. Linha vermelha: taxa de resposta.</p>
-      <div class="chart"><canvas id="cNps" role="img" aria-label="NPS e taxa de resposta por mês"></canvas></div>
-    </div>
-    <div class="card c12">
-      <h3>Nota por critério</h3>
-      <p>Média das notas, de 1 a 5, nas pesquisas de agosto e setembro.</p>
-      <div class="chart" style="height:260px"><canvas id="cCrit" role="img" aria-label="Nota média por critério"></canvas></div>
+      <p>NPS das respostas de cada mês, de abril a setembro. Zero a 100.</p>
+      <div class="chart"><canvas id="cNps" role="img" aria-label="NPS por mês"></canvas></div>
     </div>
   </div>
 </section>
 
-<section class="blk" id="dre">
-  <div class="sh"><h2 class="sec">DRE <span>resumido</span></h2><span class="tag">Coluna vermelha: março, base de comparação</span></div>
-  <div class="tw"><table id="dret"></table></div>
+<section class="blk" id="placar">
+  <div class="sh"><h2 class="sec">Março <span>→</span> setembro</h2><span class="tag">O time como foi recebido, contra hoje</span></div>
+  <div class="tw"><table id="board"></table></div>
 </section>
 
-<footer><span>Fontes: DRE FALCON, Base de Clientes e NPS Q2. Setembro conforme lançado no DRE. % de folha = pessoas e variáveis de pessoas sobre o faturamento.</span><span>V4 Carvalho &amp; Co.</span></footer>
+<footer><span>Fontes: DRE FALCON, Base de Clientes e NPS Q2. Setembro conforme lançado no DRE.</span><span>V4 Carvalho &amp; Co.</span></footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -262,19 +233,11 @@ const M=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'];
 const D={
  mrr:[45481.56,45481.56,39673.05,62438.96,59060.39,91770.58,73766.41,77637.81,123605.28],
  vr:[2244.53,2189.84,2012,16012,15700,23178.17,26789.69,50627.32,59004.37],
- inad:[0,0,0,0,6691.49,0,0,0,9328],
  pess:[27691.66,19525,27175,29458.32,31985.81,29775,29423,33698.31,45097.15],
- roy:[14317.83,14301.42,12505.52,23535.29,22428.12,28737.19,25139.03,32066.28,45652.41],
- ohP:[42563.95,18505.04,18213.94,19749.65,17440.9,14761.17,15482,18381.2,14621.89],
- ohI:[15307.98,6743.4,6644.25,9200.69,7830.02,12986.78,15274.42,18429.72,25282.94],
- ohC:[13567.33,9116.83,19168.82,18662.94,15649.04,11881.86,12787.82,14504.34,12041.96],
- prod:[0,0,0,0,520,7224.9,0,0,0],
  mar:[-65722.66,-20520.29,-42022.48,-22155.93,-21093.51,9581.86,2449.84,11185.28,39913.3],
- cli:[8,7,8,10,10,17,20,19,20],
- inv:[6,5,5,7,6,6,7,7,7]
+ cli:[8,7,8,10,10,17,20,19,20], inv:[6,5,5,7,6,6,7,7,7]
 };
 D.fat=D.mrr.map((v,i)=>v+D.vr[i]);
-
 const L=8,A=3,B=2,K='#000000',W='#FFFFFF',R='#E10600';
 const pd=s=>{const[a,b,c]=s.split('/').map(Number);return new Date(c,b-1,a)};
 const cl=RAW.cl.map(c=>({...c,start:pd(c.i),end:c.x?pd(c.x):null}));
@@ -285,93 +248,85 @@ const sai=M.map((_,m)=>cl.filter(c=>inM(c.end,m)&&c.s!=='Finalizado').length);
 const folha=D.pess.map((v,i)=>v/D.fat[i]), marP=D.mar.map((v,i)=>v/D.fat[i]);
 const ticket=D.fat.map((v,i)=>v/D.cli[i]), fcab=D.fat.map((v,i)=>v/D.inv[i]);
 const npsM=M.map((_,m)=>{const r=RAW.nps.filter(x=>x.m===m&&x.n!=null);if(!r.length)return null;
-  return {v:(r.filter(x=>x.n>=9).length-r.filter(x=>x.n<=6).length)/r.length*100,n:r.length,d:r.filter(x=>x.n<=6).length}});
-const RESP=[null,null,null,100,100,71,60,67,71];
+  return {v:(r.filter(x=>x.n>=9).length-r.filter(x=>x.n<=6).length)/r.length*100,n:r.length}});
+
 const nf=(v,d=0)=>v.toLocaleString('pt-BR',{maximumFractionDigits:d,minimumFractionDigits:d});
 const mil=v=>(v<0?'-':'')+'R$ '+nf(Math.abs(v)/1000,1)+' mil';
 const pct=(v,d=0)=>nf(v*100,d)+'%';
 const g=(a,b)=>(a-b)/Math.abs(b);
 const sig=v=>(v>=0?'+':'-')+pct(Math.abs(v));
-const churnTot=sai.slice(A).reduce((a,b)=>a+b,0), entTot=ent.slice(A).reduce((a,b)=>a+b,0);
 
+// hero
+document.getElementById('heroNum').innerHTML='R$&nbsp;'+nf(D.fat[L]/1000,1)+'<small>MIL</small>';
+document.getElementById('heroDelta').textContent=sig(g(D.fat[L],D.fat[B]))+' vs março';
+document.getElementById('heroSub').textContent='Março: '+mil(D.fat[B])+' · '+nf(D.fat[L]/D.fat[B],1)+'x em 6 meses';
+document.getElementById('marPct').textContent=pct(marP[L]);
+document.getElementById('marTxt').textContent=mil(D.mar[L])+' de margem em setembro. Em março: '+mil(D.mar[B])+' ('+pct(marP[B])+').';
+
+// kpis
 const ic={
- f:'<svg viewBox="0 0 24 24"><path d="M5 19L19 5M7 5h12v12"/></svg>',
- m:'<svg viewBox="0 0 24 24"><path d="M3 21V9h5v12M10 21V3h5v18M17 21v-8h4v8"/></svg>',
  u:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21v-3h14v3"/></svg>',
- c:'<svg viewBox="0 0 24 24"><path d="M3 12h13M11 6l6 6-6 6M21 4v16"/></svg>',
- s:'<svg viewBox="0 0 24 24"><path d="M12 3l3 6 6 1-4.5 4.5 1 6.5-5.5-3-5.5 3 1-6.5L3 10l6-1z"/></svg>',
- p:'<svg viewBox="0 0 24 24"><path d="M5 19L19 5"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg>',
- t:'<svg viewBox="0 0 24 24"><path d="M12 3v18M17 7H9.5a3 3 0 000 6h5a3 3 0 010 6H7"/></svg>',
- v:'<svg viewBox="0 0 24 24"><path d="M3 20h18M6 20V10M12 20V4M18 20v-7"/></svg>'};
-const dv=(a,b)=>`<b class="up">${sig(g(a,b))}</b> vs março`;
+ n:'<svg viewBox="0 0 24 24"><path d="M3 21V9h5v12M10 21V3h5v18M17 21v-8h4v8"/></svg>',
+ f:'<svg viewBox="0 0 24 24"><path d="M5 19L19 5M7 5h12v12"/></svg>',
+ c:'<svg viewBox="0 0 24 24"><path d="M3 12h13M11 6l6 6-6 6M21 4v16"/></svg>'};
+const churnTot=sai.slice(A).reduce((a,b)=>a+b,0), entTot=ent.slice(A).reduce((a,b)=>a+b,0);
 const kp=[
- ['Faturamento · set',ic.f,'R$ '+nf(D.fat[L]/1000,1)+'<em>mil</em>',dv(D.fat[L],D.fat[B]),1],
- ['Margem · set',ic.m,pct(marP[L]),`${mil(D.mar[L])} · março ${mil(D.mar[B])} (${pct(marP[B])})`,0],
- ['Clientes na base',ic.u,base[L],`+${base[L]-base[B]} desde março · ${D.cli[L]} pagantes no DRE`,0],
- ['Churn desde abril',ic.c,churnTot,`${entTot} entradas no período`,1],
- ['NPS · set',ic.s,nf(npsM[L].v,0),`${npsM[L].n} respostas · ${npsM[L].d} detrator`,0],
- ['% folha · set',ic.p,nf(folha[L]*100,1)+'<em>%</em>',`março ${pct(folha[B],1)} · meta 30%`,1],
- ['Fat. por pessoa · set',ic.t,'R$ '+nf(fcab[L]/1000,1)+'<em>mil</em>',dv(fcab[L],fcab[B]),0],
- ['Variável no fat. · set',ic.v,pct(D.vr[L]/D.fat[L]),`março ${pct(D.vr[B]/D.fat[B])} · MRR ${mil(D.mrr[L])}`,1]];
-document.getElementById('kp').innerHTML=kp.map(([t,i,n,s,inv])=>`<div class="kb"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}</div><div class="s">${s}</div></div>`).join('');
+ ['Clientes na base',ic.u,base[L],'',`+${base[L]-base[B]} desde março · ${D.cli[L]} pagantes no DRE`,0],
+ ['NPS · set',ic.n,nf(npsM[L].v,0),'',`${npsM[L].n} respostas · 1 detrator`,1],
+ ['% folha',ic.f,nf(folha[L]*100,1),'%',`Março: ${pct(folha[B],1)} · meta 30%`,0],
+ ['Churn desde abril',ic.c,churnTot,'',`${entTot} entradas no período`,1]];
+document.getElementById('kp').innerHTML=kp.map(([t,i,n,u,s,inv])=>`<div class="kb"><div class="top"><span class="tag">${t}</span>${i}</div><div class="mega n">${n}${u?'<em>'+u+'</em>':''}</div><div class="s">${s}</div></div>`).join('');
 
+// gráficos
 let mode='total',charts=[];
-const Q=ch=>(ch.scales.x.getPixelForValue(2)+ch.scales.x.getPixelForValue(3))/2;
-const mark=()=>({id:'m',afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=Q(ch);c.save();c.fillStyle='rgba(0,0,0,.05)';c.fillRect(ch.chartArea.left,a.top,px-a.left,a.bottom-a.top);c.strokeStyle=R;c.lineWidth=2;c.setLineDash([6,5]);c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();c.setLineDash([]);c.fillStyle=R;c.font="800 11px Archivo,Arial,sans-serif";c.fillText('ABRIL',px+8,a.top+12);c.restore()}});
-const ax=(dark,o={})=>{const ink=dark?W:K;return {grid:{color:'#E6E6E6'},border:{color:ink,width:1},ticks:{color:ink,font:{weight:600},...(o.ticks||{})},...o}};
-const xa=dark=>({grid:{display:false},border:{color:dark?W:K,width:1},ticks:{color:dark?W:K,font:{weight:600}}});
-function mk(id,cfg){cfg.options={responsive:true,maintainAspectRatio:false,animation:false,...cfg.options};
-  cfg.options.plugins={legend:{display:false},tooltip:{backgroundColor:K,titleColor:W,bodyColor:W,borderColor:R,borderWidth:2,cornerRadius:0,padding:12,...(cfg.options.plugins?.tooltip||{})},...(cfg.options.plugins?.legend?{legend:cfg.options.plugins.legend}:{})};
+const Q=(ch,m)=>(ch.scales.x.getPixelForValue(2)+ch.scales.x.getPixelForValue(3))/2;
+const mark=(onDark)=>({id:'m',afterDatasetsDraw(ch){const a=ch.chartArea,c=ch.ctx,px=Q(ch);c.save();c.fillStyle='rgba(0,0,0,.05)';c.fillRect(a.left,a.top,px-a.left,a.bottom-a.top);c.strokeStyle=R;c.lineWidth=2;c.setLineDash([6,5]);c.beginPath();c.moveTo(px,a.top);c.lineTo(px,a.bottom);c.stroke();c.setLineDash([]);c.fillStyle=R;c.font="800 11px Archivo,Arial,sans-serif";c.fillText('ABRIL',px+8,a.top+12);c.restore()}});
+function ax(dark,o={}){const ink=dark?W:K;return {grid:{color:'#E6E6E6'},border:{color:ink,width:1},ticks:{color:ink,font:{weight:600},...(o.ticks||{})},...o}}
+function mk(id,cfg,dark){cfg.options={responsive:true,maintainAspectRatio:false,animation:false,...cfg.options};
+  cfg.options.plugins={legend:{display:false},tooltip:{backgroundColor:K,titleColor:W,bodyColor:W,borderColor:R,borderWidth:2,cornerRadius:0,padding:12,...(cfg.options.plugins?.tooltip||{})}};
   charts.push(new Chart(document.getElementById(id),cfg))}
-const leg=dark=>({display:true,labels:{color:dark?W:K,boxWidth:12,boxHeight:12,font:{weight:800}}});
 function draw(){
   charts.forEach(c=>c.destroy());charts=[];
   Chart.defaults.font.family="Archivo,Arial,sans-serif";
-  const bar=(label,data,col,stack)=>({label,data,stack,backgroundColor:col,borderColor:col,borderWidth:0,borderSkipped:false});
+  const pre=i=>i<A;
+  const bar=(label,data,col,stack)=>({label,data,stack,
+    backgroundColor:col,borderColor:col,borderWidth:0,borderSkipped:false});
   const ds=[];
   if(mode!=='var')ds.push(bar('MRR',D.mrr,K,'a'));
   if(mode!=='mrr')ds.push(bar('Variável',D.vr,R,'a'));
   document.getElementById('tFat').textContent=mode==='mrr'?'MRR':mode==='var'?'Faturamento variável':'Faturamento total';
-  mk('cFat',{type:'bar',data:{labels:M,datasets:ds},plugins:[mark()],options:{plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: R$ ${nf(c.parsed.y,0)}`,footer:i=>mode==='total'?'Total: R$ '+nf(i.reduce((a,b)=>a+b.parsed.y,0),0):''}}},scales:{x:{...xa(false),stacked:true},y:ax(false,{stacked:true,ticks:{callback:v=>v/1000+'k'}})}}});
+  const bx=ax(false),xx={grid:{display:false},border:{color:K,width:1},ticks:{color:K,font:{weight:600}}};
+  const money=c=>`${c.dataset.label}: R$ ${nf(c.parsed.y,0)}`;
+  mk('cFat',{type:'bar',data:{labels:M,datasets:ds},plugins:[mark()],options:{plugins:{tooltip:{callbacks:{label:money,footer:i=>mode==='total'?'Total: R$ '+nf(i.reduce((a,b)=>a+b.parsed.y,0),0):''}}},scales:{x:{...xx,stacked:true},y:ax(false,{stacked:true,ticks:{callback:v=>v/1000+'k'}})}}});
+  // margem (fundo preto)
   mk('cMar',{type:'bar',data:{labels:M,datasets:[{label:'Margem',data:D.mar,backgroundColor:D.mar.map(v=>v>=0?R:K),borderColor:D.mar.map(v=>v>=0?R:K),borderWidth:0,borderSkipped:false}]},plugins:[mark()],
-    options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:xa(false),y:ax(false,{ticks:{callback:v=>v/1000+'k'}})}}});
-  mk('cMarP',{type:'line',data:{labels:M,datasets:[{label:'Margem %',data:marP.map(v=>v*100),borderColor:R,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:R,pointStyle:'circle',tension:0}]},plugins:[mark()],
-    options:{plugins:{tooltip:{callbacks:{label:c=>'Margem: '+nf(c.parsed.y,1)+'%'}}},scales:{x:xa(false),y:ax(false,{ticks:{callback:v=>v+'%'}})}}});
-  mk('cProd',{data:{labels:M,datasets:[
-    {type:'bar',label:'Fat. por pessoa',data:fcab,yAxisID:'y',backgroundColor:K,borderColor:K,borderWidth:0},
-    {type:'line',label:'% folha',data:folha.map(v=>v*100),yAxisID:'y1',borderColor:R,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:R,pointStyle:'circle',tension:0},
-    {type:'line',label:'Meta 30%',data:M.map(()=>30),yAxisID:'y1',borderColor:K,borderDash:[6,5],borderWidth:2,pointRadius:0}]},plugins:[mark()],
-    options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y'?'Fat. por pessoa: R$ '+nf(c.parsed.y,0):c.dataset.label+': '+nf(c.parsed.y,1)+'%'}}},scales:{x:xa(false),y:ax(false,{ticks:{callback:v=>v/1000+'k'}}),y1:{position:'right',min:0,grid:{display:false},border:{color:K,width:1},ticks:{color:K,font:{weight:600},callback:v=>v+'%'}}}}});
+    options:{plugins:{tooltip:{callbacks:{label:c=>`Margem: R$ ${nf(c.parsed.y,0)} (${pct(marP[c.dataIndex],1)})`}}},scales:{x:xx,y:ax(false,{ticks:{callback:v=>v/1000+'k'}})}}});
+  // clientes + churn
   mk('cCli',{data:{labels:M.slice(A),datasets:[
     {type:'bar',label:'Entradas',data:ent.slice(A),backgroundColor:K,borderColor:K,borderWidth:0},
     {type:'bar',label:'Churn',data:sai.slice(A).map(v=>-v),backgroundColor:R,borderColor:R,borderWidth:0},
     {type:'line',label:'Clientes na base',data:base.slice(A),borderColor:K,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:K,pointStyle:'circle',tension:0}]},
-    options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`,footer:i=>{const m=i[0].dataIndex+A;return 'Taxa de churn do mês: '+pct(sai[m]/base[m-1],1)}}}},scales:{x:xa(false),y:ax(false,{min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
+    options:{plugins:{legend:{display:true,labels:{color:K,boxWidth:12,boxHeight:12,font:{weight:800}}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Math.abs(c.parsed.y)}`}}},scales:{x:xx,y:ax(false,{min:-10,max:30,ticks:{callback:v=>Math.abs(v)}})}}});
+  // nps
   const nl=M.slice(A);
-  mk('cNps',{data:{labels:nl,datasets:[
-    {type:'bar',label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:K,borderColor:K,borderWidth:0},
-    {type:'line',label:'Taxa de resposta',data:RESP.slice(A),borderColor:R,backgroundColor:W,borderWidth:2.5,pointRadius:4,pointBorderWidth:2,pointBorderColor:R,pointStyle:'circle',tension:0}]},
-    options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>c.dataset.label+': '+nf(c.parsed.y,1)+(c.dataset.type==='line'?'%':'')}}},scales:{x:xa(false),y:ax(false,{min:0,max:100})}}});
-  const CR=['Atendimento','Campanhas','Copy','Design','Prazos','Resultados'];
-  const avg=m=>CR.map((_,i)=>{const v=RAW.nps.filter(x=>x.m===m&&x.cr[i]!=null).map(x=>x.cr[i]);return v.reduce((a,b)=>a+b,0)/v.length});
-  mk('cCrit',{type:'bar',data:{labels:CR,datasets:[
-    {label:'Ago',data:avg(7),backgroundColor:K,borderColor:K,borderWidth:0},
-    {label:'Set',data:avg(8),backgroundColor:R,borderColor:R,borderWidth:0}]},
-    options:{plugins:{legend:leg(false),tooltip:{callbacks:{label:c=>c.dataset.label+': '+nf(c.parsed.y,2)}}},scales:{x:xa(false),y:ax(false,{min:3,max:5})}}});
+  mk('cNps',{type:'bar',data:{labels:nl,datasets:[{label:'NPS',data:nl.map((_,i)=>npsM[i+A].v),backgroundColor:nl.map((_,i)=>i===nl.length-1?R:K),borderColor:K,borderWidth:0}]},
+    options:{plugins:{tooltip:{callbacks:{label:c=>`NPS: ${nf(c.parsed.y,1)} (${npsM[c.dataIndex+A].n} respostas)`}}},scales:{x:xx,y:ax(false,{min:0,max:100})}}});
 }
 document.querySelectorAll('#segFat button').forEach(b=>b.onclick=()=>{mode=b.dataset.v;document.querySelectorAll('#segFat button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()});
 
-// DRE
-const r0=v=>'R$ '+nf(v,0), neg=v=>v?'-R$ '+nf(v,0):'–';
+// placar
 const rows=[
- ['Faturamento total',D.fat,r0,'t'],['MRR',D.mrr,r0,'s'],['Variável',D.vr,r0,'s'],['Inadimplência (já no fat.)',D.inad,v=>v?r0(v):'–','s'],
- ['Pessoas (ops direta)',D.pess,neg],['Royalties + impostos',D.roy,neg],['Overhead pessoas / ops',D.ohP,neg],['Overhead infra / adm',D.ohI,neg],['Overhead comercial',D.ohC,neg],['Custo de produções',D.prod,neg],
- ['Margem',D.mar,r0,'t'],['Margem %',marP,v=>pct(v,1),'t'],
- ['Clientes pagantes (DRE)',D.cli,v=>v],['Ticket médio',ticket,r0],['Pessoas no time',D.inv,v=>v],['Fat. por pessoa',fcab,r0],['% folha',folha,v=>pct(v,1)]];
-document.getElementById('dret').innerHTML='<thead><tr><th></th>'+M.map((m,i)=>`<th${i===B?' class="base"':''}>${m}</th>`).join('')+'</tr></thead><tbody>'+
- rows.map(([n,a,f,c])=>`<tr class="${c||''}"><td>${n}</td>${a.map((v,i)=>`<td class="${i===B?'base':''}${n.startsWith('Margem')&&v<0?' ng':''}">${f(v)}</td>`).join('')}</tr>`).join('')+'</tbody>';
+ ['Faturamento',D.fat,mil,'g'],['MRR',D.mrr,mil,'g'],['Variável',D.vr,mil,'g'],
+ ['Margem R$',D.mar,mil,'r'],['Margem %',marP,v=>pct(v,1),'pp'],
+ ['Clientes na base',base,v=>v,'n'],['Ticket médio',ticket,mil,'g'],['Faturamento por pessoa',fcab,mil,'g'],
+ ['% folha',folha,v=>pct(v,1),'pp'],['NPS (base: abril)',npsM.map(x=>x&&x.v),v=>nf(v,1),'n']];
+const dl=(a,s,t)=>t==='g'?sig(g(s,a)):t==='r'?(s>=a?'+':'')+mil(s-a):t==='pp'?(s>=a?'+':'')+nf((s-a)*100,1)+' p.p.':(s>=a?'+':'')+nf(s-a,0);
+document.getElementById('board').innerHTML='<thead><tr><th>Indicador</th><th>Março</th><th>Setembro</th><th>Variação</th></tr></thead><tbody>'+
+ rows.map(([n,a,f,t])=>{const b=n.startsWith('NPS')?A:B;return `<tr><td>${n}</td><td>${f(a[b])}</td><td>${f(a[L])}</td><td class="d">${dl(a[b],a[L],t)}</td></tr>`}).join('')+'</tbody>';
 
-const secs=[...document.querySelectorAll('#resumo,#financeiro,#clientes,#dre')], lk=[...document.querySelectorAll('#links a')];
-addEventListener('scroll',()=>{let cur=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<120)cur=i});lk.forEach((a,i)=>a.setAttribute('aria-current',i===cur))},{passive:true});
+// nav ativa
+const secs=[...document.querySelectorAll('#resumo,#financeiro,#clientes,#placar')], lk=[...document.querySelectorAll('#links a')];
+const spy=()=>{let cur=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<120)cur=i});lk.forEach((a,i)=>a.setAttribute('aria-current',i===cur))};
+addEventListener('scroll',spy,{passive:true});
 draw();
 </script>
